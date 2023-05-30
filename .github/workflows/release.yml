@@ -1,0 +1,22 @@
+name: "Publish a new release"
+on:
+  push:
+    branches:
+    - main
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    concurrency: release
+    permissions: write-all
+    steps:
+        - uses: actions/setup-python@v4
+          with:
+            python-version: '3.11'
+        - uses: actions/checkout@v3
+        - name: Install deps
+          run: |
+            python -m pip install --upgrade pip
+            pip install dagger-io
+        - name: Run Dagger_release.py pipeline
+          run: python ci/release.py
