@@ -12,13 +12,15 @@ async def release(version):
 
         setup = (
             base.pythonBase(client, version)
+            .with_exec(['apk', 'add', 'git', 'libgcc'])
+            .with_exec(['git', 'config', '--global', 'safe.directory', '*'])
+            .with_exec(['pip', 'install', 'python-semantic-release'])
             .with_mounted_directory('/src', src)
             .with_workdir('/src')
-            .with_exec(['pip', 'install', 'python-semantic-release'])
 
         )
 
-        release = setup.with_exec(['semantic-release', 'print-version'])
+        release = setup.with_exec(['semantic-release', 'publish'])
         # execute
         await release.exit_code()
 
