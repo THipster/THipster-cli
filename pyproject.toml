@@ -1,3 +1,7 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
 [tool.pytest.ini_options]
 minversion = "6.0"
 addopts = "-ra -q"
@@ -16,6 +20,9 @@ minor_emoji = ":sparkles:"
 patch_emoji = ":ambulance:,:bug:,:adhesive_bandage:,:lock:,:arrow_up:,:arrow_down:,:heavy_plus_sign:,:heavy_minus_sign:,:rotating_light:,:zap:,:recycle:,:wrench:,:loud_sound:,:mute:,:goal_net:,:wastebasket:,:coffin:,:chart_with_upwards_trend:,:globe_with_meridians:,:alien:,:wheelchair:,:children_crossing:,:bricks:"
 upload_to_pypi = false
 
+repository_url = "https://upload.pypi.org/legacy/"
+
+commit_subject = ":bookmark: {version}"
 major_on_zero = false
 
 [pytest]
