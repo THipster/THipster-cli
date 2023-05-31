@@ -1,3 +1,5 @@
+importlib-metadata==6.6.0
+importlib-resources==5.12.0
 click==8.1.3
 colorama==0.4.6
 markdown-it-py==2.2.0
@@ -7,3 +9,4 @@ rich==13.3.5
 shellingham==1.4.0
 typer==0.9.0
 typing_extensions==4.6.2
+thipster==0.13.6
