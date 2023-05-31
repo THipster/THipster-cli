@@ -83,7 +83,8 @@ def _run(
     __display_vb("Parsing files...")
 
     try:
-        print(engine.run(path))
+        list_dir, tf_plan = engine.run(path)
+        print(tf_plan)
         __display_vb("Done! :tada:")
     except ParserPathNotFound as e:
         print(f"[red]Error:[/red] {e.message}")
