@@ -8,13 +8,13 @@ runner = CliRunner()
 
 def test_version():
     result = runner.invoke(app, ["version"])
-    version = get_version("thipster-cli")
+    version = get_version("thipstercli")
     assert "THipster-cli" and version in result.stdout
 
 
 def test_version_thipster():
     result = runner.invoke(app, ["version", "--thipster"])
-    version = get_version("thipster-cli")
+    version = get_version("thipstercli")
     assert "THipster-cli" and version in result.stdout
     version = get_version("thipster")
     assert "THipster" and version in result.stdout
