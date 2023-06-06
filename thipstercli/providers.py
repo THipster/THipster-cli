@@ -28,9 +28,10 @@ def info(provider: str):
     __get_provider_list()
     provider = __check_provider_exists(provider)
 
-    provider_module = importlib.import_module(f"thipster.auth.{provider}")
-    provider_description = getattr(provider_module, "description")
-    provider_help = getattr(provider_module, "help")
+    provider_class = __get_provider_class(provider)
+    provider_description = getattr(provider_class, "description")
+    provider_help = getattr(provider_class, "help")
+
     print(Panel(provider_description, title=provider))
     print(Panel(provider_help, title="Help"))
 
@@ -42,9 +43,7 @@ def set(provider: str):
     __get_provider_list()
     provider = __check_provider_exists(provider)
 
-    provider_module = importlib.import_module(f"thipster.auth.{provider}")
-    provider_class = getattr(provider_module, f"{provider}Auth")
-    state["provider"] = provider_class
+    state["provider"] = __get_provider_class(provider)
 
     print(f"Provider set to [green]{provider}[/green]")
     __more_info_provider()
@@ -85,7 +84,16 @@ def __get_provider_list():
         for entry in entries:
             if entry.is_file() and entry.name.endswith(".py") and not \
                     entry.name.startswith("__"):
-                state["providers"].append(entry.name)
+                provider = entry.name.capitalize() if entry.name.islower() else \
+                    entry.name
+                state["providers"].append(provider)
+
+
+def __get_provider_class(provider: str) -> type:
+    provider_module = importlib.import_module(
+        f"thipster.auth.{provider.lower()}",
+    )
+    return getattr(provider_module, f"{provider}Auth")
 
 
 def __more_info_provider():

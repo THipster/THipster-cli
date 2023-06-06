@@ -2,14 +2,18 @@ import typer
 from thipstercli import providers
 from thipstercli.state import state, init_state
 from rich import print
-from thipster.engine.Engine import Engine as ThipsterEngine
-from thipster.repository.GithubRepo import GithubRepo
-from thipster.repository.LocalRepo import LocalRepo
-from thipster.parser.ParserFactory import ParserFactory, ParserPathNotFound
-from thipster.parser.dsl_parser.TokenParser import DSLSyntaxException,\
-    DSLConditionException, DSLUnexpectedEOF
-from thipster.auth.Google import GoogleAuth
-from thipster.terraform.CDK import CDK, CDKException
+from thipster import Engine as ThipsterEngine
+from thipster.repository import GithubRepo, LocalRepo
+from thipster.parser import ParserFactory
+from thipster.parser.parser_factory import ParserPathNotFound
+from thipster.parser.dsl_parser.exceptions import (
+    DSLSyntaxException,
+    DSLConditionException,
+    DSLUnexpectedEOF,
+)
+from thipster.auth import Google
+from thipster.terraform import Terraform
+from thipster.terraform.exceptions import CDKException
 
 init_state()
 app = typer.Typer(name=state["app_name"], no_args_is_help=True)
@@ -71,7 +75,7 @@ def _run(
 
     engine = ThipsterEngine(
         ParserFactory(), repo,
-        GoogleAuth, CDK(),
+        Google, Terraform(),
     )
     __display_vb("Engine start-up successful! :rocket:")
 
