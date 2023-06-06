@@ -1,6 +1,6 @@
 import typer
 from thipstercli import providers
-from importlib.metadata import version as get_version
+from thipstercli.state import state, init_state
 from rich import print
 from thipster.engine.Engine import Engine as ThipsterEngine
 from thipster.repository.GithubRepo import GithubRepo
@@ -11,16 +11,9 @@ from thipster.parser.dsl_parser.TokenParser import DSLSyntaxException,\
 from thipster.auth.Google import GoogleAuth
 from thipster.terraform.CDK import CDK, CDKException
 
-version = get_version("thipstercli")
-
-name = f":bookmark: THipster-cli [green]v{version}[/green]"
-
-app = typer.Typer(name=name, no_args_is_help=True)
+init_state()
+app = typer.Typer(name=state["app_name"], no_args_is_help=True)
 app.add_typer(providers.app, name="providers")
-
-state = {
-    "verbose": False,
-}
 
 
 @app.callback()
@@ -34,7 +27,7 @@ def _callback(
     """THipster CLI
 
     THipster is a tool that allows you to generate Terraform code 
-    from a simple DSL or yaml file.
+from a simple DSL or yaml file.
     """
     state["verbose"] = verbose
 
@@ -49,10 +42,12 @@ def _version(
 ):
     """Prints the version of the THipster CLI
     """
-    print(f"{name}")
+    print(f"{state['app_name']}")
 
     if thipster:
-        print(f":bookmark: THipster [green]v{get_version('thipster')}[/green]")
+        print(
+            f":bookmark: THipster [green]v{state['thipster_version']}[/green]",
+        )
 
 
 @app.command("run")
@@ -71,7 +66,7 @@ def _run(
     """
     __display_vb(f"Running THipster on {path}")
 
-    repo = LocalRepo(local) if local else GithubRepo('THipster/models')
+    repo = LocalRepo(local) if local else GithubRepo(state["github_repo"])
     __display_vb("Repo set-up successful! :memo:")
 
     engine = ThipsterEngine(

@@ -1,2 +1,8 @@
-bucket my-bucket:
-    region: europe-west1
+bucket corsBucket:
+    cors:
+        origin: 
+            - "https://www.example.com"
+            - "https://www.example2.com"
+        method: ["GET", "POST", "PUT", "DELETE", "HEAD"]
+        responseHeader: ["Content-Type", "Authorization"]
+        maxAge: 400
