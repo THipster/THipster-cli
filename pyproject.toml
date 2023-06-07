@@ -22,8 +22,11 @@ upload_to_pypi = false
 
 repository_url = "https://upload.pypi.org/legacy/"
 
-commit_subject = ":bookmark: {version}"
+commit_subject = ":bookmark: {version} [skip ci]"
 major_on_zero = false
 
 [pytest]
 mock_use_standalone_module = true
+
+[tool.ruff]
+exclude = ["__init__.py"]
