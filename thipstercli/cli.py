@@ -15,8 +15,6 @@ from thipster.auth import Google
 from thipster.terraform import Terraform
 from thipster.terraform.exceptions import CDKException
 
-from python_terraform import Terraform as TerraformPy
-
 init_state()
 app = typer.Typer(name=state["app_name"], no_args_is_help=True)
 app.add_typer(providers.app, name="providers")
@@ -122,9 +120,7 @@ def _run(
 
         if apply:
             print("Type 'yes' to apply the changes : ")
-            tf = TerraformPy()
-            _, stdout, stderr = tf.apply()
-            print(stdout + stderr)
+            print(engine._apply_terraform())
 
         __display_vb("Done! :tada:")
 
