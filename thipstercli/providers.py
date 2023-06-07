@@ -26,14 +26,10 @@ def info(provider: str):
     """Get information about a provider
     """
     __get_provider_list()
-    provider = __check_provider_exists(provider)
+    provider = check_provider_exists(provider)
 
-    provider_class = __get_provider_class(provider)
-    provider_description = getattr(provider_class, "description")
-    provider_help = getattr(provider_class, "help")
-
-    print(Panel(provider_description, title=provider))
-    print(Panel(provider_help, title="Help"))
+    provider_class = get_provider_class(provider)
+    print(Panel(provider_class.__doc__, title=provider))
 
 
 @app.command("set")
@@ -41,9 +37,9 @@ def set(provider: str):
     """Set the provider to use
     """
     __get_provider_list()
-    provider = __check_provider_exists(provider)
+    provider = check_provider_exists(provider)
 
-    state["provider"] = __get_provider_class(provider)
+    state["provider"] = get_provider_class(provider)
 
     print(f"Provider set to [green]{provider}[/green]")
     __more_info_provider()
@@ -60,7 +56,7 @@ def display():
 [/bold] to set a provider")
 
 
-def __check_provider_exists(provider: str) -> str:
+def check_provider_exists(provider: str) -> str:
     """Checks if the given provider exists in the providers list
     """
     if provider.islower():
@@ -75,6 +71,13 @@ following providers:")
     return provider
 
 
+def get_provider_class(provider: str) -> type:
+    provider_module = importlib.import_module(
+        f"thipster.auth.{provider.lower()}",
+    )
+    return getattr(provider_module, f"{provider}Auth")
+
+
 def __get_provider_list():
     """Gets the list of providers supported by the thipster package
     """
@@ -87,13 +90,6 @@ def __get_provider_list():
                 provider = entry.name.capitalize() if entry.name.islower() else \
                     entry.name
                 state["providers"].append(provider)
-
-
-def __get_provider_class(provider: str) -> type:
-    provider_module = importlib.import_module(
-        f"thipster.auth.{provider.lower()}",
-    )
-    return getattr(provider_module, f"{provider}Auth")
 
 
 def __more_info_provider():

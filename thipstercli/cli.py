@@ -57,7 +57,7 @@ def _version(
 @app.command("run")
 def _run(
     path: str = typer.Argument(
-        ...,
+        ".",
         help="Path to the file or directory to run",
     ),
     local: str = typer.Option(
@@ -65,26 +65,55 @@ def _run(
         "--local", "-l",
         help="Runs the THipster Tool locally, importing models from the given path",
     ),
+    provider: str = typer.Option(
+        None,
+        "--provider", "-p",
+        help="Runs the THipster Tool using the given provider",
+    ),
 ):
     """Runs the THipster Tool on the given path
     """
     __display_vb(f"Running THipster on {path}")
 
-    repo = LocalRepo(local) if local else GithubRepo(state["github_repo"])
+    authentification_provider = providers.get_provider_class(
+        providers.check_provider_exists(provider),
+    ) if provider else Google
+
+    __display_vb(
+        f"Provider Auth set to [green]{authentification_provider.__name__}[/green]",
+    )
+
+    repo = LocalRepo(local) if local else GithubRepo(
+        state["github_repo"], state["github_repo_branch"],
+    )
     __display_vb("Repo set-up successful! :memo:")
 
     engine = ThipsterEngine(
-        ParserFactory(), repo,
-        Google, Terraform(),
+        ParserFactory(),
+        repo,
+        authentification_provider,
+        Terraform(),
     )
     __display_vb("Engine start-up successful! :rocket:")
 
     __display_vb("Parsing files...")
 
     try:
-        list_dir, tf_plan = engine.run(path)
-        print(tf_plan)
+        parsed_file = engine._parse_files(path)
+        __display_vb("Parsing successful! :white_check_mark:")
+
+        models = engine._get_models(parsed_file)
+        __display_vb("Models retrieved! :white_check_mark:")
+
+        engine._generate_tf_files(parsed_file, models)
+        __display_vb("Terraform files generated! :white_check_mark:")
+
+        engine._init_terraform()
+        __display_vb("Terraform initialized! :white_check_mark:")
+
+        print(engine._plan_terraform())
         __display_vb("Done! :tada:")
+
     except ParserPathNotFound as e:
         print(f"[red]Error:[/red] {e.message}")
     except DSLSyntaxException as e:
@@ -93,6 +122,10 @@ def _run(
         print(f"[red]Error:[/red] {repr(e)}")
     except DSLUnexpectedEOF as e:
         print(f"[red]Error:[/red] {repr(e)}")
+    except FileNotFoundError as e:
+        print(
+            f"[red]Error:[/red] {e.strerror} : [bold][red]{e.filename}[/red][/bold]",
+        )
     except CDKException as e:
         print(f"[red]Error:[/red] {e.message}")
 

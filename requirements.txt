@@ -9,4 +9,4 @@ rich==13.4.1
 shellingham==1.5.0.post1
 typer==0.9.0
 typing_extensions==4.6.3
-thipster==0.14.2
+thipster==0.14.5
