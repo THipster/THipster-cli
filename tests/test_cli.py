@@ -1,7 +1,6 @@
 from importlib.metadata import version as get_version
 from typer.testing import CliRunner
 from thipstercli.cli import app
-import os
 
 runner = CliRunner()
 
@@ -20,14 +19,15 @@ def test_version_thipster():
     assert "THipster" and version in result.stdout
 
 
-def test_run_file():
-    os.environ["GOOGLE_CREDENTIALS"] = """{
-        "type": "service_account",
-        "project_id": "thipster-test",
-    }"""
-    result = runner.invoke(app, ["-v", "run", "tests/resources/bucket.thips"])
-    assert "Running THipster on tests/resources/bucket.thips" in result.stdout
+def test_run_wrong_local_repository():
+    result = runner.invoke(
+        app, ["run", "tests/resources/bucket.thips", "--local", "wrong_path"],
+    )
+    assert "Error: No such file or directory :" in result.stdout
+    assert "wrong_path" in result.stdout
 
-    assert "bucket" in result.stdout
 
-    del os.environ["GOOGLE_CREDENTIALS"]
+def test_run_wrong_file_path():
+    result = runner.invoke(app, ["run", "wrong_path"])
+    assert "Error: Path not found :" in result.stdout
+    assert "wrong_path" in result.stdout
