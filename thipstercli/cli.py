@@ -15,6 +15,8 @@ from thipster.auth import Google
 from thipster.terraform import Terraform
 from thipster.terraform.exceptions import CDKException
 
+from python_terraform import Terraform as TerraformPy
+
 init_state()
 app = typer.Typer(name=state["app_name"], no_args_is_help=True)
 app.add_typer(providers.app, name="providers")
@@ -70,6 +72,11 @@ def _run(
         "--provider", "-p",
         help="Runs the THipster Tool using the given provider",
     ),
+    apply: bool = typer.Option(
+        False,
+        "--apply", "-a",
+        help="Applies the generated Terraform code",
+    ),
 ):
     """Runs the THipster Tool on the given path
     """
@@ -112,6 +119,13 @@ def _run(
         __display_vb("Terraform initialized! :white_check_mark:")
 
         print(engine._plan_terraform())
+
+        if apply:
+            print("Type 'yes' to apply the changes : ")
+            tf = TerraformPy()
+            _, stdout, stderr = tf.apply()
+            print(stdout + stderr)
+
         __display_vb("Done! :tada:")
 
     except ParserPathNotFound as e:

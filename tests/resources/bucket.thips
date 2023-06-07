@@ -1,4 +1,4 @@
-bucket corsBucket:
+bucket thipster_cli_test_bucket:
     cors:
         origin: 
             - "https://www.example.com"
