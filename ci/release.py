@@ -20,7 +20,14 @@ async def release(version):
 
         )
 
-        release = setup.with_exec(['semantic-release', 'publish'])
+        release = setup.with_exec([
+            'semantic-release',
+            'publish',
+            '-v',
+            'DEBUG',
+            '-D',
+            'commit_author=github-actions <github-actions@github.com>',
+        ])
         # execute
         await release.exit_code()
 
