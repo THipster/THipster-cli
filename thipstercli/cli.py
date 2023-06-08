@@ -1,20 +1,24 @@
 import typer
-import sys
-from thipstercli import providers
-from thipstercli.state import state, init_state
 from rich import print
 from thipster import Engine as ThipsterEngine
-from thipster.repository import GithubRepo, LocalRepo
+from thipster.auth import Google
 from thipster.parser import ParserFactory
-from thipster.parser.parser_factory import ParserPathNotFound
 from thipster.parser.dsl_parser.exceptions import (
-    DSLSyntaxException,
     DSLConditionException,
+    DSLSyntaxException,
     DSLUnexpectedEOF,
 )
-from thipster.auth import Google
+from thipster.parser.parser_factory import ParserPathNotFound
+from thipster.repository import GithubRepo, LocalRepo
 from thipster.terraform import Terraform
 from thipster.terraform.exceptions import CDKException
+
+from thipstercli import providers
+from thipstercli.helpers import (
+    error,
+    print_if_verbose,
+)
+from thipstercli.state import init_state, state
 
 init_state()
 app = typer.Typer(name=state["app_name"], no_args_is_help=True)
@@ -79,20 +83,20 @@ def _run(
 ):
     """Runs the THipster Tool on the given path
     """
-    __display_vb(f"Running THipster on {path}")
+    print_if_verbose(f"Running THipster on {path}")
 
     authentification_provider = providers.get_provider_class(
         providers.check_provider_exists(provider),
     ) if provider else Google
 
-    __display_vb(
+    print_if_verbose(
         f"Provider Auth set to [green]{authentification_provider.__name__}[/green]",
     )
 
     repo = LocalRepo(local) if local else GithubRepo(
         state["github_repo"], state["github_repo_branch"],
     )
-    __display_vb("Repo set-up successful! :memo:")
+    print_if_verbose("Repo set-up successful! :memo:")
 
     engine = ThipsterEngine(
         ParserFactory(),
@@ -100,22 +104,22 @@ def _run(
         authentification_provider,
         Terraform(),
     )
-    __display_vb("Engine start-up successful! :rocket:")
+    print_if_verbose("Engine start-up successful! :rocket:")
 
-    __display_vb("Parsing files...")
+    print_if_verbose("Parsing files...")
 
     try:
         parsed_file = engine._parse_files(path)
-        __display_vb("Parsing successful! :white_check_mark:")
+        print_if_verbose("Parsing successful! :white_check_mark:")
 
         models = engine._get_models(parsed_file)
-        __display_vb("Models retrieved! :white_check_mark:")
+        print_if_verbose("Models retrieved! :white_check_mark:")
 
         engine._generate_tf_files(parsed_file, models)
-        __display_vb("Terraform files generated! :white_check_mark:")
+        print_if_verbose("Terraform files generated! :white_check_mark:")
 
         engine._init_terraform()
-        __display_vb("Terraform initialized! :white_check_mark:")
+        print_if_verbose("Terraform initialized! :white_check_mark:")
 
         print(engine._plan_terraform())
 
@@ -123,27 +127,24 @@ def _run(
             print("Type 'yes' to apply the changes : ")
             print(engine._apply_terraform())
 
-        __display_vb("Done! :tada:")
+        print_if_verbose("Done! :tada:")
 
     except ParserPathNotFound as e:
-        print(f"[red]Error:[/red] {e.message}", file=sys.stderr)
+        error(e.message)
     except DSLSyntaxException as e:
-        print(f"[red]Error:[/red] {repr(e)}", file=sys.stderr)
+        error(repr(e))
     except DSLConditionException as e:
-        print(f"[red]Error:[/red] {repr(e)}", file=sys.stderr)
+        error(repr(e))
     except DSLUnexpectedEOF as e:
-        print(f"[red]Error:[/red] {repr(e)}", file=sys.stderr)
+        error(repr(e))
     except FileNotFoundError as e:
-        print(
-            f"[red]Error:[/red] {e.strerror} : [bold][red]{e.filename}[/red][/bold]",
-            file=sys.stderr,
+        error(
+            f'No such file or directory : [bold][red]{e.filename}[/red][/bold]',
         )
     except CDKException as e:
-        print(f"[red]Error:[/red] {e.message}", file=sys.stderr)
-
-
-def __display_vb(text: str):
-    print(text) if state["verbose"] else None
+        error(e.message)
+    except Exception as e:
+        error(*e.args)
 
 
 if __name__ == "__main__":

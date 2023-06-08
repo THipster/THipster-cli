@@ -7,7 +7,7 @@ from thipstercli.cli import app
 
 AUTH_FILE_PATH = "tests/credentials.json"
 
-runner = CliRunner()
+runner = CliRunner(mix_stderr=False)
 
 
 def auth_test(func):
@@ -54,29 +54,28 @@ def test_run_wrong_local_repository():
     result = runner.invoke(
         app, ["run", "tests/resources/bucket.thips", "--local", "wrong_path"],
     )
-    assert result.exit_code == 0
-    assert "Error: No such file or directory :" in result.output
-    assert "wrong_path" in result.output
+    assert result.exit_code != 0
+    assert "[bold][red]Error :[/red][/bold] No such file or directory :" \
+        in result.stderr
+    assert "wrong_path" in result.stderr
 
 
 def test_run_wrong_file_path():
     result = runner.invoke(app, ["run", "wrong_path"])
-    assert result.exit_code == 0
-    assert "Error: Path not found :" in result.output
-    assert "wrong_path" in result.output
+    assert result.exit_code != 0
+    assert "[bold][red]Error :[/red][/bold] Path not found :" in result.stderr
+    assert "wrong_path" in result.stderr
 
 
 @auth_test
 def test_run_bucket():
-    try:
-        result = runner.invoke(
-            app, [
-                "run", "tests/resources/bucket.thips",
-                "-l", "tests/resources/models",
-            ],
-        )
-    finally:
-        os.remove(AUTH_FILE_PATH)
+
+    result = runner.invoke(
+        app, [
+            "run", "tests/resources/bucket.thips",
+            "-l", "tests/resources/models",
+        ],
+    )
 
     assert result.exit_code == 0
     assert "thipster_cli_test_bucket" in result.output

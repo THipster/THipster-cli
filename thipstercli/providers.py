@@ -63,10 +63,10 @@ def check_provider_exists(provider: str) -> str:
         provider = provider.capitalize()
 
     if f"{provider}.py" not in state["providers"]:
-        print(f"Provider [red]{provider}[/red] not found. Please use one of the \
+        Exception(f"Provider [red]{provider}[/red] not found. Please use one of the \
 following providers:")
         _list()
-        raise typer.Exit()
+        raise typer.Exit(1)
 
     return provider
 
