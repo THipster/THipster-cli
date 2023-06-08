@@ -2,6 +2,17 @@
 
 <!--next-version-placeholder-->
 
+## v0.1.0 (2023-06-08)
+
+### :sparkles:
+
+* :sparkles: feat: Add features of thipster v0.15.0 ([#8](https://github.com/THipster/THipster-cli/issues/8)) ([`d45517d`](https://github.com/THipster/THipster-cli/commit/d45517d9bd3a5361d105a3b146c5b2360e444c04))
+
+### Other
+
+* :bookmark: 0.0.2 [skip ci] ([`7863595`](https://github.com/THipster/THipster-cli/commit/7863595ddb555dfa0e01a92c1b8fe72f1b6c4fb7))
+* :green_heart: fix(ci): Change release ci to match thipster ([#7](https://github.com/THipster/THipster-cli/issues/7)) ([`b3b6e77`](https://github.com/THipster/THipster-cli/commit/b3b6e77cb8ec374682b7e170b43b5bb166283f40))
+
 ## v0.0.2 (2023-06-05)
 ### :arrow_up:
 
