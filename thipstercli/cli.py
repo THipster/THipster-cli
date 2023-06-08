@@ -1,4 +1,5 @@
 import typer
+import sys
 from thipstercli import providers
 from thipstercli.state import state, init_state
 from rich import print
@@ -125,19 +126,20 @@ def _run(
         __display_vb("Done! :tada:")
 
     except ParserPathNotFound as e:
-        print(f"[red]Error:[/red] {e.message}")
+        print(f"[red]Error:[/red] {e.message}", file=sys.stderr)
     except DSLSyntaxException as e:
-        print(f"[red]Error:[/red] {repr(e)}")
+        print(f"[red]Error:[/red] {repr(e)}", file=sys.stderr)
     except DSLConditionException as e:
-        print(f"[red]Error:[/red] {repr(e)}")
+        print(f"[red]Error:[/red] {repr(e)}", file=sys.stderr)
     except DSLUnexpectedEOF as e:
-        print(f"[red]Error:[/red] {repr(e)}")
+        print(f"[red]Error:[/red] {repr(e)}", file=sys.stderr)
     except FileNotFoundError as e:
         print(
             f"[red]Error:[/red] {e.strerror} : [bold][red]{e.filename}[/red][/bold]",
+            file=sys.stderr,
         )
     except CDKException as e:
-        print(f"[red]Error:[/red] {e.message}")
+        print(f"[red]Error:[/red] {e.message}", file=sys.stderr)
 
 
 def __display_vb(text: str):
