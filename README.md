@@ -32,37 +32,32 @@ Use appropriate formatting when showing code snippets.*
 
 ## How to test the software
 
-*If the software includes automated tests, detail how to run those tests.*
+To test the CLI, you can run the following command:
+
+```bash
+pip install -e .[test]
+pytest tests
+```
 
 ## Known issues
 
-*Document any known significant shortcomings with the software.*
+All known issues, bugs, improvements, etc. are tracked as [GitHub issues](https://github.com/THipster/THipster-cli/issues).
 
 ## Getting help
 
-If you have questions, concerns, bug reports, etc, please file an issue in this repository's Issue Tracker.
+If you have questions, concerns, bug reports, etc, please file an issue in this repository's [Issue Tracker](https://github.com/THipster/THipster-cli/issues).
 
 ## Getting involved
 
-*This section should detail why people should get involved and describe key areas you are
-currently focusing on; e.g., trying to get feedback on features, fixing certain bugs, building
-important pieces, etc.*
+To install the project in development mode, run the following command:
 
-*General instructions on _how_ to contribute should be stated with a link to [CONTRIBUTING](CONTRIBUTING.md).*
+```bash
+pip install -e .[dev,test]
+pre-commit install && pre-commit run --all-files
+```
 
-
-----
+If you would like to be involved in the project feel free to check the [CONTRIBUTING](https://github.com/THipster/THipster-cli/blob/main/CONTRIBUTING.md) file. We will be happy to have you onboard.
 
 ## Open source licensing info
-*1. [TERMS](TERMS.md)
-2. [LICENSE](LICENSE)
-3. [CFPB Source Code Policy](https://github.com/cfpb/source-code-policy/)*
-
-
-----
-
-## Credits and references
-
-*1. Projects that inspired you
-2. Related projects
-3. Books, papers, talks, or other sources that have meaningful impact or influence on this project*
+1. [LICENSE](https://github.com/THipster/THipster-cli/blob/main/LICENSE)
+3. [CFPB Source Code Policy](https://github.com/cfpb/source-code-policy/)
