@@ -12,6 +12,7 @@ runner = CliRunner(mix_stderr=False)
 
 def auth_test(func):
     def wrapper(*args, **kwargs):
+        delete_credentials = False
         if (
             not os.path.exists(
                 os.path.join(
@@ -19,8 +20,13 @@ def auth_test(func):
                     '.config/gcloud/application_default_credentials.json',
                 ),
             )
-            and os.getenv('GOOGLE_APPLICATION_CREDENTIALS') is not None
+            and (
+                os.getenv('GOOGLE_APPLICATION_CREDENTIALS') is not None
+                or os.getenv('GOOGLE_APPLICATION_CREDENTIALS') != ''
+            )
         ):
+
+            delete_credentials = True
             if os.getenv('GOOGLE_APPLICATION_CREDENTIALS_CONTENT') is None:
                 raise Exception("No credentials available")
 
@@ -30,7 +36,12 @@ def auth_test(func):
                 )
             os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = AUTH_FILE_PATH
 
-        return func(*args, **kwargs)
+        res = func(*args, **kwargs)
+
+        if delete_credentials:
+            os.remove(AUTH_FILE_PATH)
+
+        return res
     return wrapper
 
 

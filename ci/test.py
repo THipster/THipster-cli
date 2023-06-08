@@ -1,5 +1,4 @@
 import sys
-import os
 import anyio
 import base
 import dagger
@@ -10,9 +9,8 @@ async def test(version: str):
     """
     async with dagger.Connection(dagger.Config(log_output=sys.stderr)) as client:
 
-        gcp_credentials_content = client.set_secret(
-            "gcp-file-secret-content",
-            os.environ['GOOGLE_APPLICATION_CREDENTIALS_CONTENT'],
+        gcp_credentials_content = (
+            client.host().env_variable('GOOGLE_APPLICATION_CREDENTIALS_CONTENT').secret()
         )
 
         src = client.host().directory('.')
