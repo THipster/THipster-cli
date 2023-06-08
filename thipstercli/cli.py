@@ -1,26 +1,28 @@
 import typer
-from thipstercli import providers
-from importlib.metadata import version as get_version
 from rich import print
-from thipster.engine.Engine import Engine as ThipsterEngine
-from thipster.repository.GithubRepo import GithubRepo
-from thipster.repository.LocalRepo import LocalRepo
-from thipster.parser.ParserFactory import ParserFactory, ParserPathNotFound
-from thipster.parser.dsl_parser.TokenParser import DSLSyntaxException,\
-    DSLConditionException, DSLUnexpectedEOF
-from thipster.auth.Google import GoogleAuth
-from thipster.terraform.CDK import CDK, CDKException
+from thipster import Engine as ThipsterEngine
+from thipster.auth import Google
+from thipster.parser import ParserFactory
+from thipster.parser.dsl_parser.exceptions import (
+    DSLConditionException,
+    DSLSyntaxException,
+    DSLUnexpectedEOF,
+)
+from thipster.parser.parser_factory import ParserPathNotFound
+from thipster.repository import GithubRepo, LocalRepo
+from thipster.terraform import Terraform
+from thipster.terraform.exceptions import CDKException
 
-version = get_version("thipstercli")
+from thipstercli import providers
+from thipstercli.helpers import (
+    error,
+    print_if_verbose,
+)
+from thipstercli.state import init_state, state
 
-name = f":bookmark: THipster-cli [green]v{version}[/green]"
-
-app = typer.Typer(name=name, no_args_is_help=True)
+init_state()
+app = typer.Typer(name=state["app_name"], no_args_is_help=True)
 app.add_typer(providers.app, name="providers")
-
-state = {
-    "verbose": False,
-}
 
 
 @app.callback()
@@ -34,7 +36,7 @@ def _callback(
     """THipster CLI
 
     THipster is a tool that allows you to generate Terraform code 
-    from a simple DSL or yaml file.
+from a simple DSL or yaml file.
     """
     state["verbose"] = verbose
 
@@ -49,16 +51,18 @@ def _version(
 ):
     """Prints the version of the THipster CLI
     """
-    print(f"{name}")
+    print(f"{state['app_name']}")
 
     if thipster:
-        print(f":bookmark: THipster [green]v{get_version('thipster')}[/green]")
+        print(
+            f":bookmark: THipster [green]v{state['thipster_version']}[/green]",
+        )
 
 
 @app.command("run")
 def _run(
     path: str = typer.Argument(
-        ...,
+        ".",
         help="Path to the file or directory to run",
     ),
     local: str = typer.Option(
@@ -66,40 +70,81 @@ def _run(
         "--local", "-l",
         help="Runs the THipster Tool locally, importing models from the given path",
     ),
+    provider: str = typer.Option(
+        None,
+        "--provider", "-p",
+        help="Runs the THipster Tool using the given provider",
+    ),
+    apply: bool = typer.Option(
+        False,
+        "--apply", "-a",
+        help="Applies the generated Terraform code",
+    ),
 ):
     """Runs the THipster Tool on the given path
     """
-    __display_vb(f"Running THipster on {path}")
+    print_if_verbose(f"Running THipster on {path}")
 
-    repo = LocalRepo(local) if local else GithubRepo('THipster/models')
-    __display_vb("Repo set-up successful! :memo:")
+    authentification_provider = providers.get_provider_class(
+        providers.check_provider_exists(provider),
+    ) if provider else Google
+
+    print_if_verbose(
+        f"Provider Auth set to [green]{authentification_provider.__name__}[/green]",
+    )
+
+    repo = LocalRepo(local) if local else GithubRepo(
+        state["github_repo"], state["github_repo_branch"],
+    )
+    print_if_verbose("Repo set-up successful! :memo:")
 
     engine = ThipsterEngine(
-        ParserFactory(), repo,
-        GoogleAuth, CDK(),
+        ParserFactory(),
+        repo,
+        authentification_provider,
+        Terraform(),
     )
-    __display_vb("Engine start-up successful! :rocket:")
+    print_if_verbose("Engine start-up successful! :rocket:")
 
-    __display_vb("Parsing files...")
+    print_if_verbose("Parsing files...")
 
     try:
-        list_dir, tf_plan = engine.run(path)
-        print(tf_plan)
-        __display_vb("Done! :tada:")
+        parsed_file = engine._parse_files(path)
+        print_if_verbose("Parsing successful! :white_check_mark:")
+
+        models = engine._get_models(parsed_file)
+        print_if_verbose("Models retrieved! :white_check_mark:")
+
+        engine._generate_tf_files(parsed_file, models)
+        print_if_verbose("Terraform files generated! :white_check_mark:")
+
+        engine._init_terraform()
+        print_if_verbose("Terraform initialized! :white_check_mark:")
+
+        print(engine._plan_terraform())
+
+        if apply:
+            print("Type 'yes' to apply the changes : ")
+            print(engine._apply_terraform())
+
+        print_if_verbose("Done! :tada:")
+
     except ParserPathNotFound as e:
-        print(f"[red]Error:[/red] {e.message}")
+        error(e.message)
     except DSLSyntaxException as e:
-        print(f"[red]Error:[/red] {repr(e)}")
+        error(repr(e))
     except DSLConditionException as e:
-        print(f"[red]Error:[/red] {repr(e)}")
+        error(repr(e))
     except DSLUnexpectedEOF as e:
-        print(f"[red]Error:[/red] {repr(e)}")
+        error(repr(e))
+    except FileNotFoundError as e:
+        error(
+            f'No such file or directory : [bold][red]{e.filename}[/red][/bold]',
+        )
     except CDKException as e:
-        print(f"[red]Error:[/red] {e.message}")
-
-
-def __display_vb(text: str):
-    print(text) if state["verbose"] else None
+        error(e.message)
+    except Exception as e:
+        error(*e.args)
 
 
 if __name__ == "__main__":
