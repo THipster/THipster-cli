@@ -1,9 +1,37 @@
-from importlib.metadata import version as get_version
-from typer.testing import CliRunner
-from thipstercli.cli import app
 import os
+from importlib.metadata import version as get_version
+
+from typer.testing import CliRunner
+
+from thipstercli.cli import app
+
+AUTH_FILE_PATH = "tests/credentials.json"
 
 runner = CliRunner()
+
+
+def auth_test(func):
+    def wrapper(*args, **kwargs):
+        if (
+            not os.path.exists(
+                os.path.join(
+                    os.getenv('HOME'),
+                    '.config/gcloud/application_default_credentials.json',
+                ),
+            )
+            and os.getenv('GOOGLE_APPLICATION_CREDENTIALS') is not None
+        ):
+            if os.getenv('GOOGLE_APPLICATION_CREDENTIALS_CONTENT') is None:
+                raise Exception("No credentials available")
+
+            with open(AUTH_FILE_PATH, "w") as auth_file:
+                auth_file.write(
+                    os.environ["GOOGLE_APPLICATION_CREDENTIALS_CONTENT"],
+                )
+            os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = AUTH_FILE_PATH
+
+        return func(*args, **kwargs)
+    return wrapper
 
 
 def test_version():
@@ -38,13 +66,8 @@ def test_run_wrong_file_path():
     assert "wrong_path" in result.output
 
 
+@auth_test
 def test_run_bucket():
-    AUTH_FILE_PATH = "tests/credentials.json"
-    auth_file = open(AUTH_FILE_PATH, "w")
-    auth_file.write(os.environ["GOOGLE_APPLICATION_CREDENTIALS_CONTENT"])
-    auth_file.close()
-    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = AUTH_FILE_PATH
-
     try:
         result = runner.invoke(
             app, [
