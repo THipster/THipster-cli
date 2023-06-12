@@ -2,6 +2,16 @@
 
 <!--next-version-placeholder-->
 
+## v0.1.2 (2023-06-12)
+
+### :arrow_up:
+
+* :arrow_up: chore: Bump thipster from 0.16.0 to 0.16.4 ([#12](https://github.com/THipster/THipster-cli/issues/12)) ([`a46c4e1`](https://github.com/THipster/THipster-cli/commit/a46c4e117dbeff148369ef108e828b06339b4c2d))
+
+### Other
+
+* :package: feat: Add pypi package ([#11](https://github.com/THipster/THipster-cli/issues/11)) ([`9db8e12`](https://github.com/THipster/THipster-cli/commit/9db8e12c48232807c4b2e94512680d7c0aa0fa35))
+
 ## v0.1.1 (2023-06-12)
 
 ### :arrow_up:
