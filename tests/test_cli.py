@@ -66,7 +66,7 @@ def test_run_wrong_local_repository():
         app, ["run", "tests/resources/bucket.thips", "--local", "wrong_path"],
     )
     assert result.exit_code != 0
-    assert "[bold][red]Error :[/red][/bold] No such file or directory :" \
+    assert "Error : No such file or directory :" \
         in result.stderr
     assert "wrong_path" in result.stderr
 
@@ -74,7 +74,7 @@ def test_run_wrong_local_repository():
 def test_run_wrong_file_path():
     result = runner.invoke(app, ["run", "wrong_path"])
     assert result.exit_code != 0
-    assert "[bold][red]Error :[/red][/bold] Path not found :" in result.stderr
+    assert "Error : Path not found :" in result.stderr
     assert "wrong_path" in result.stderr
 
 

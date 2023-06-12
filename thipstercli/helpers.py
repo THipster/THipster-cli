@@ -1,7 +1,7 @@
 import sys
 
 import typer
-
+from rich import print
 from thipstercli.state import state
 
 
