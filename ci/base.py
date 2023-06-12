@@ -54,5 +54,6 @@ def thipsterBase(client: dagger.Client, version: str) -> dagger.Container:
         # Install THipster dependencies
         .with_file('requirements.txt', src.file('requirements.txt'))
         .with_exec(['pip', 'install', '-r', 'requirements.txt'])
+        .with_exec(['pip', 'install', 'thipster[google]'])
     )
     return thips
