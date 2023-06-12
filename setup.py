@@ -11,16 +11,29 @@ with open('README.md') as f:
 setup(
     name='thipstercli',
     version=__version__,
-    description='',
+    license='MIT',
+    description='CLI interface build with typer, designed to use the thipster package',
     long_description=long_description,
+    long_description_content_type='text/markdown',
     authors=[
         {"name": "rcattin", "email": "rcattin@ippon.fr"},
         {"name": "gsuquet", "email": "gsuquet@ippon.fr"},
+    ],
+    keywords=[
+        "thipster",
+        "cli",
+        "generator",
+        "infrastructure as code",
+        "iac",
+        "terraform",
+        "typer",
     ],
     classifiers=[
         'Development Status :: 1 - Planning',
         'Environment :: Console',
         'Programming Language :: Python :: 3.11',
+        'License :: OSI Approved :: MIT License',
+        'Operating System :: OS Independent',
     ],
     download_url='https://github.com/THipster/THipster-cli.git',
     url='https://github.com/THipster/THipster-cli',
@@ -38,6 +51,10 @@ setup(
             'pytest-mock',
             'dagger.io',
             'pre-commit',
+        ],
+        'doc': [
+            'sphinx',
+            'myst-parser',
         ],
     },
     entry_points={
