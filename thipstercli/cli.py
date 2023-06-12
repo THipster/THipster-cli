@@ -3,15 +3,9 @@ from rich import print
 from thipster import Engine as ThipsterEngine
 from thipster.auth import Google
 from thipster.parser import ParserFactory
-from thipster.parser.dsl_parser.exceptions import (
-    DSLConditionException,
-    DSLSyntaxException,
-    DSLUnexpectedEOF,
-)
-from thipster.parser.parser_factory import ParserPathNotFound
 from thipster.repository import GithubRepo, LocalRepo
 from thipster.terraform import Terraform
-from thipster.terraform.exceptions import CDKException
+from thipster.engine.exceptions import THipsterException
 
 from thipstercli import providers
 from thipstercli.helpers import (
@@ -129,20 +123,12 @@ def _run(
 
         print_if_verbose("Done! :tada:")
 
-    except ParserPathNotFound as e:
+    except THipsterException as e:
         error(e.message)
-    except DSLSyntaxException as e:
-        error(repr(e))
-    except DSLConditionException as e:
-        error(repr(e))
-    except DSLUnexpectedEOF as e:
-        error(repr(e))
     except FileNotFoundError as e:
         error(
             f'No such file or directory : [bold][red]{e.filename}[/red][/bold]',
         )
-    except CDKException as e:
-        error(e.message)
     except Exception as e:
         error(*e.args)
 
