@@ -20,15 +20,33 @@ To use the CLI, you will need to have all the required THipster dependencies ins
 
 ## Installation
 
-*Detailed instructions on how to install, configure, and get the project running.
-This should be frequently tested to ensure reliability. Alternatively, link to
-a separate [INSTALL](INSTALL.md) document.*
+The project is designed to be simply installed using [pip](https://pip.pypa.io/en/stable/).
+
+```bash
+pip install thipstercli
+```
+
+The list of available versions can be found on [PyPI](https://pypi.org/project/thipstercli/).
 
 ## Usage
 
-*Show users how to use the software.
-Be specific.
-Use appropriate formatting when showing code snippets.*
+The cli is composed of 3 main commands:
+- `version`: display the current version of the package
+```bash
+thipster version -t
+```
+
+- `providers`: subcommand group tp handle all tasks related to infrastructure providers
+```bash
+thipster providers --help
+```
+
+- `run`: main command to execute the thipster tool
+```bash
+thipster run --help
+```
+
+You can also check the [thipster package documentation](https://github.com/THipster/THipster/tree/main#usage) for more details on the main features and purpose of the tool.
 
 ## How to test the software
 
