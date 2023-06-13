@@ -1,6 +1,6 @@
 bucket thipster_cli_test_bucket:
     cors:
-        origin: 
+        origin:
             - "https://www.example.com"
             - "https://www.example2.com"
         method: ["GET", "POST", "PUT", "DELETE", "HEAD"]
