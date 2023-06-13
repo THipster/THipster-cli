@@ -2,6 +2,12 @@
 
 <!--next-version-placeholder-->
 
+## v0.1.3 (2023-06-13)
+
+### :wrench:
+
+* :wrench: fix: Restore pre-commit configuration ([#14](https://github.com/THipster/THipster-cli/issues/14)) ([`76f8e69`](https://github.com/THipster/THipster-cli/commit/76f8e69b4a7154687ba7d1e62f7911d4b75a9bac))
+
 ## v0.1.2 (2023-06-12)
 
 ### :arrow_up:
