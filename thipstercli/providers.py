@@ -1,10 +1,10 @@
 import typer
 import os
-import importlib
 from rich.panel import Panel
 from rich import print
 from thipster import auth
-from thipstercli.state import state
+from thipstercli.config import state, update_config_file
+from thipstercli.helpers import get_auth_provider_class
 
 app = typer.Typer(no_args_is_help=True)
 
@@ -28,7 +28,7 @@ def info(provider: str):
     __get_provider_list()
     provider = check_provider_exists(provider)
 
-    provider_class = get_provider_class(provider)
+    provider_class = get_auth_provider_class(provider)
     print(Panel(provider_class.__doc__, title=provider))
 
 
@@ -36,10 +36,11 @@ def info(provider: str):
 def set(provider: str):
     """Set the provider to use
     """
-    __get_provider_list()
     provider = check_provider_exists(provider)
 
-    state['provider'] = get_provider_class(provider)
+    update_config_file(
+        {'auth_provider': provider},
+    )
 
     print(f'Provider set to [green]{provider}[/green]')
     __more_info_provider()
@@ -49,8 +50,8 @@ def set(provider: str):
 def display():
     """Display the current provider
     """
-    if state['provider']:
-        print(f"Provider set to [green]{state['provider'].__name__}[/green]")
+    if state['auth_provider']:
+        print(f"Provider set to [green]{state['auth_provider']}[/green]")
     else:
         print('No provider set.\nPlease use [bold]thipster providers set <provider>\
 [/bold] to set a provider')
@@ -59,6 +60,7 @@ def display():
 def check_provider_exists(provider: str) -> str:
     """Checks if the given provider exists in the providers list
     """
+    __get_provider_list()
     if provider.islower():
         provider = provider.capitalize()
 
@@ -69,13 +71,6 @@ following providers:')
         raise typer.Exit(1)
 
     return provider
-
-
-def get_provider_class(provider: str) -> type:
-    provider_module = importlib.import_module(
-        f'thipster.auth.{provider.lower()}',
-    )
-    return getattr(provider_module, f'{provider}Auth')
 
 
 def __get_provider_list():

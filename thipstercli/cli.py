@@ -1,4 +1,5 @@
 import typer
+import thipstercli.constants as constants
 from rich import print
 from thipster import Engine as ThipsterEngine
 from thipster.auth import Google
@@ -11,18 +12,26 @@ from thipstercli import providers
 from thipstercli.helpers import (
     error,
     print_if_verbose,
+    print_package_version,
+    print_start_if_verbose,
+    print_success_if_verbose,
 )
-from thipstercli.state import init_state, state
+from thipstercli.config import init_parameters, state
 
-init_state()
-app = typer.Typer(name=state['app_name'], no_args_is_help=True)
+init_parameters()
+
+app = typer.Typer(
+    name=state.get(
+        'app_name', constants.APP_NAME,
+    ), no_args_is_help=True,
+)
 app.add_typer(providers.app, name='providers')
 
 
 @app.callback()
 def _callback(
     verbose: bool = typer.Option(
-        False,
+        state.get('verbose', constants.VERBOSE),
         '--verbose', '-v',
         help='Prints more information about the execution of the THipster CLI',
     ),
@@ -45,18 +54,16 @@ def _version(
 ):
     """Prints the version of the THipster CLI
     """
-    print(f"{state['app_name']}")
+    print_package_version('thipstercli')
 
     if thipster:
-        print(
-            f":bookmark: THipster [green]v{state['thipster_version']}[/green]",
-        )
+        print_package_version('thipster')
 
 
 @app.command('run')
 def _run(
     path: str = typer.Argument(
-        '.',
+        state.get('input_dir', constants.INPUT_DIR),
         help='Path to the file or directory to run',
     ),
     local: str = typer.Option(
@@ -79,7 +86,7 @@ def _run(
     """
     print_if_verbose(f'Running THipster on {path}')
 
-    authentification_provider = providers.get_provider_class(
+    authentification_provider = providers.get_auth_provider_class(
         providers.check_provider_exists(provider),
     ) if provider else Google
 
@@ -88,7 +95,8 @@ def _run(
     )
 
     repo = LocalRepo(local) if local else GithubRepo(
-        state['github_repo'], state['github_repo_branch'],
+        state.get('github_repo', constants.GITHUB_REPO),
+        state.get('github_repo_branch', constants.GITHUB_REPO_BRANCH),
     )
     print_if_verbose('Repo set-up successful! :memo:')
 
@@ -100,21 +108,24 @@ def _run(
     )
     print_if_verbose('Engine start-up successful! :rocket:')
 
-    print_if_verbose('Parsing files...')
-
     try:
+        print_start_if_verbose('Parsing files')
         parsed_file = engine._parse_files(path)
-        print_if_verbose('Parsing successful! :white_check_mark:')
+        print_success_if_verbose('Parsing successful!')
 
+        print_start_if_verbose('Retrieving models')
         models = engine._get_models(parsed_file)
-        print_if_verbose('Models retrieved! :white_check_mark:')
+        print_success_if_verbose('Models retrieved!')
 
+        print_start_if_verbose('Generating Terraform files')
         engine._generate_tf_files(parsed_file, models)
-        print_if_verbose('Terraform files generated! :white_check_mark:')
+        print_success_if_verbose('Terraform files generated!')
 
+        print_start_if_verbose('Initializing Terraform')
         engine._init_terraform()
-        print_if_verbose('Terraform initialized! :white_check_mark:')
+        print_success_if_verbose('Terraform initialized!')
 
+        print_start_if_verbose('Creating Terraform plan')
         print(engine._plan_terraform())
 
         if apply:

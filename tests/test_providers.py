@@ -1,6 +1,7 @@
 from typer.testing import CliRunner
-from thipstercli.state import state
-from thipstercli.providers import app, get_provider_class, check_provider_exists
+from thipstercli.config import state
+from thipstercli.helpers import get_auth_provider_class
+from thipstercli.providers import app, check_provider_exists
 
 runner = CliRunner(mix_stderr=False)
 
@@ -36,7 +37,7 @@ def test_set_provider():
 
 
 def test_get_provider_class():
-    provider = get_provider_class('Google')
+    provider = get_auth_provider_class('Google')
     assert provider.__name__ == 'GoogleAuth'
 
 
