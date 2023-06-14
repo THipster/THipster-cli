@@ -1,7 +1,9 @@
 import json
+from rich import print
 from pathlib import Path
 from typer import get_app_dir
 import thipstercli.constants as constants
+from thipstercli.helpers import check_thipster_module_exists
 
 state = {}
 
@@ -20,12 +22,21 @@ def init_parameters() -> None:
 
     state.update(json.loads(config_path.read_text()))
 
+    if not state['auth_provider']:
+        return
+
+    if not check_thipster_module_exists('auth', state['auth_provider']):
+        print(f':rotating_light: User set Auth Provider [red]{state["auth_provider"]}\
+[/red] not found')
+        state.pop('auth_provider')
+
 
 def set_default_config() -> None:
     """Sets the default configuration
     """
     state['app_name'] = constants.APP_NAME
     state['verbose'] = constants.VERBOSE
+    state['models_repository_provider'] = constants.MODELS_REPOSITORY_PROVIDER
     state['github_repo'] = constants.GITHUB_REPO
     state['github_repo_branch'] = constants.GITHUB_REPO_BRANCH
     state['local_repo_path'] = constants.LOCAL_REPO_PATH

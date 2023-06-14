@@ -9,7 +9,7 @@ from thipster.terraform import Terraform
 from thipster.engine.exceptions import THipsterException
 
 from thipstercli import providers
-from thipstercli.helpers import (
+from thipstercli.display import (
     error,
     print_if_verbose,
     print_package_version,
@@ -71,6 +71,24 @@ def _run(
         '--local', '-l',
         help='Runs the THipster Tool locally, importing models from the given path',
     ),
+    repository_provider: str = typer.Option(
+        state.get(
+            'models_repository_provider',
+            constants.MODELS_REPOSITORY_PROVIDER,
+        ),
+        '--repository-provider', '-rp',
+        help='Runs the THipster Tool using the given model repository provider',
+    ),
+    repository: str = typer.Option(
+        state.get('github_repo', constants.GITHUB_REPO),
+        '--repository-name', '-rn',
+        help='Runs the THipster Tool using the given model repository',
+    ),
+    repository_branch: str = typer.Option(
+        state.get('github_repo_branch', constants.GITHUB_REPO_BRANCH),
+        '--repository-branch', '-rb',
+        help='Runs the THipster Tool using the given model repository branch',
+    ),
     provider: str = typer.Option(
         None,
         '--provider', '-p',
@@ -95,8 +113,8 @@ def _run(
     )
 
     repo = LocalRepo(local) if local else GithubRepo(
-        state.get('github_repo', constants.GITHUB_REPO),
-        state.get('github_repo_branch', constants.GITHUB_REPO_BRANCH),
+        repository,
+        repository_branch,
     )
     print_if_verbose('Repo set-up successful! :memo:')
 

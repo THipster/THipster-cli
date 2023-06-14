@@ -1,35 +1,47 @@
-import sys
-import typer
+import os
 import importlib
-from rich import print
-from thipstercli.config import state
-from importlib.metadata import version as get_version
 
 
-def error(*args, **kwargs):
-    print('[bold][red]Error :[/red][/bold]', *args, file=sys.stderr, **kwargs)
-    sys.stderr.flush()
-    raise typer.Exit(1)
+def get_thipster_class(
+    parent_module_name: str,
+    module_name: str,
+    class_name_extension: str,
+) -> type:
+    module = importlib.import_module(
+        f'thipster.{parent_module_name.lower()}.{module_name.lower()}',
+    )
+    return getattr(
+        module,
+        (module_name.capitalize() if module_name.islower() else module_name) +
+        class_name_extension,
+    )
 
 
-def print_if_verbose(text: str):
-    print(text) if state['verbose'] else None
+def check_thipster_module_exists(parent_module_name: str, module_name: str) -> bool:
+    try:
+        importlib.import_module(
+            f'thipster.{parent_module_name.lower()}.{module_name.lower()}',
+        )
+        return True
+    except ModuleNotFoundError:
+        return False
 
 
-def print_start_if_verbose(text: str):
-    print_if_verbose(f':arrow_forward: {text} ...')
-
-
-def print_success_if_verbose(text: str):
-    print_if_verbose(f'{text} :white_heavy_check_mark:')
-
-
-def print_package_version(package: str):
-    print(f':bookmark: {package} [green]v{get_version(package)}[/green]')
+def get_thipster_module_class_list(module_name: str) -> list[str]:
+    # return list of classes in module
+    module = importlib.import_module(
+        f'thipster.{module_name.lower()}',
+    )
+    module_class_list = []
+    with os.scandir(os.path.dirname(module.__file__)) as entries:
+        for entry in entries:
+            if entry.is_file() and entry.name.endswith('.py') and not \
+                    entry.name.startswith('__'):
+                module_class = entry.name.capitalize() if entry.name.islower() else \
+                    entry.name
+                module_class_list.append(module_class)
+    return module_class_list
 
 
 def get_auth_provider_class(provider: str) -> type:
-    provider_module = importlib.import_module(
-        f'thipster.auth.{provider.lower()}',
-    )
-    return getattr(provider_module, f'{provider}Auth')
+    return get_thipster_class('auth', provider, 'Auth')
