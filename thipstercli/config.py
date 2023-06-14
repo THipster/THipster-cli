@@ -17,12 +17,12 @@ def init_parameters() -> None:
     if not config_path.is_file():
         set_default_config()
         config_path.parent.mkdir(parents=True, exist_ok=True)
-        config_path.write_text(json.dumps(state))
+        config_path.write_text(json.dumps(state, sort_keys=True, indent=4))
         return
 
     state.update(json.loads(config_path.read_text()))
 
-    if not state['auth_provider']:
+    if not state.get('auth_provider', None):
         return
 
     if not check_thipster_module_exists('auth', state['auth_provider']):
@@ -37,10 +37,9 @@ def set_default_config() -> None:
     state['app_name'] = constants.APP_NAME
     state['verbose'] = constants.VERBOSE
     state['models_repository_provider'] = constants.MODELS_REPOSITORY_PROVIDER
-    state['github_repo'] = constants.GITHUB_REPO
-    state['github_repo_branch'] = constants.GITHUB_REPO_BRANCH
-    state['local_repo_path'] = constants.LOCAL_REPO_PATH
-    state['providers'] = constants.PROVIDERS
+    state['models_repository'] = constants.MODELS_REPOSITORY
+    state['models_repository_branch'] = constants.MODELS_REPOSITORY_BRANCH
+    state['local_models_repository_path'] = constants.LOCAL_MODELS_REPOSITORY_PATH
     state['input_dir'] = constants.INPUT_DIR
     state['output_dir'] = constants.OUTPUT_DIR
 
@@ -50,4 +49,4 @@ def update_config_file(parameters: dict[str, object]) -> None:
     """
     config_file: dict[str, object] = json.loads(config_path.read_text())
     config_file.update(parameters)
-    config_path.write_text(json.dumps(config_file))
+    config_path.write_text(json.dumps(config_file, sort_keys=True, indent=4))

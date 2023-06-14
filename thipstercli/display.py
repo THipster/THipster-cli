@@ -12,7 +12,7 @@ def error(*args, **kwargs):
 
 
 def print_if_verbose(text: str):
-    print(text) if state['verbose'] else None
+    print(text) if state.get('verbose', False) else None
 
 
 def print_start_if_verbose(text: str):

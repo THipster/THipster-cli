@@ -1,4 +1,5 @@
 from typer.testing import CliRunner
+from thipstercli.config import state
 from thipstercli.helpers import get_auth_provider_class
 from thipstercli.providers import app, check_provider_exists
 
@@ -29,16 +30,14 @@ def test_info_provider_not_found():
     assert 'provider notfound not found.' in result.stdout.lower()
 
 
-def test_set_provider():
+def test_set_provider(config_file, get_config_file):
+    _ = config_file
     result = runner.invoke(app, ['set', 'google'])
     assert result.exit_code == 0
     assert 'google' in result.stdout.lower()
     assert 'provider set to' in result.stdout.lower()
 
-    result = runner.invoke(app, ['display'])
-    assert result.exit_code == 0
-    assert 'google' in result.stdout.lower()
-    assert 'provider set to' in result.stdout.lower()
+    assert get_config_file.get('auth_provider', None) == 'google'
 
 
 def test_set_provider_not_found():
@@ -47,8 +46,8 @@ def test_set_provider_not_found():
     assert 'provider notfound not found.' in result.stdout.lower()
 
 
-def test_display_provider():
-    runner.invoke(app, ['set', 'google'])
+def test_display_provider(config_file):
+    _ = config_file
     result = runner.invoke(app, ['display'])
     assert result.exit_code == 0
     assert 'google' in result.stdout.lower()
@@ -62,3 +61,29 @@ def test_get_provider_class():
 def test_check_provider_exists():
     provider = check_provider_exists('google')
     assert provider == 'google'
+
+
+def test_config_file_provider(config_file):
+    _ = config_file
+    result = runner.invoke(app, ['display'])
+    assert result.exit_code == 0
+    assert 'google' in result.stdout.lower()
+    assert 'provider set to' in result.stdout.lower()
+
+
+def test_config_file_verbose(config_file):
+    _ = config_file
+    runner.invoke(app, ['--help'])
+    assert state.get('verbose', False) is True
+
+
+def test_config_file_set_provider(config_file, get_config_file):
+    _ = config_file
+    runner.invoke(app, ['set', 'google'])
+    assert get_config_file.get('auth_provider', None) == 'google'
+
+
+def test_wrong_provider_config_file(config_file_wrong_provider):
+    _ = config_file_wrong_provider
+    runner.invoke(app, ['--help'])
+    assert state.get('auth_provider', None) is None

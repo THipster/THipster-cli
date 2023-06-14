@@ -80,12 +80,15 @@ def _run(
         help='Runs the THipster Tool using the given model repository provider',
     ),
     repository: str = typer.Option(
-        state.get('github_repo', constants.GITHUB_REPO),
+        state.get('models_repository', constants.MODELS_REPOSITORY),
         '--repository-name', '-rn',
         help='Runs the THipster Tool using the given model repository',
     ),
     repository_branch: str = typer.Option(
-        state.get('github_repo_branch', constants.GITHUB_REPO_BRANCH),
+        state.get(
+            'models_repository_branch',
+            constants.MODELS_REPOSITORY_BRANCH,
+        ),
         '--repository-branch', '-rb',
         help='Runs the THipster Tool using the given model repository branch',
     ),

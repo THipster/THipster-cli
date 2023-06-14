@@ -28,6 +28,25 @@ pip install thipstercli
 
 The list of available versions can be found on [PyPI](https://pypi.org/project/thipstercli/).
 
+### Configuration
+
+The CLI can be configured using a configuration file. A default `config.json` file will be created in the `/home/<user>/.config/thipstercli` directory the first time the CLI is used.
+
+Example of a configuration file:
+```json
+{
+    "app_name": "thipstercli",
+    "auth_provider": "google",
+    "input_dir": ".",
+    "local_models_repository_path": "models",
+    "models_repository": "THipster/models",
+    "models_repository_branch": "main",
+    "models_repository_provider": "local",
+    "output_dir": ".",
+    "verbose": false
+}
+```
+
 ## Usage
 
 The cli is composed of 3 main commands:
