@@ -2,6 +2,12 @@
 
 <!--next-version-placeholder-->
 
+## v0.2.0 (2023-06-15)
+
+### :sparkles:
+
+* :sparkles: feat: Add configuration file ([#15](https://github.com/THipster/THipster-cli/issues/15)) ([`1a2e9f9`](https://github.com/THipster/THipster-cli/commit/1a2e9f96971fd7dfa9babbc650884d95760e07c6))
+
 ## v0.1.3 (2023-06-13)
 
 ### :wrench:
