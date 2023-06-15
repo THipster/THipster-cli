@@ -5,6 +5,15 @@ __version__ = '0.2.0'
 with open('requirements.txt') as f:
     required = f.read().splitlines()
 
+with open('requirements-dev.txt') as f:
+    required_dev = f.read().splitlines()
+
+with open('requirements-doc.txt') as f:
+    required_doc = f.read().splitlines()
+
+with open('requirements-test.txt') as f:
+    required_test = f.read().splitlines()
+
 with open('README.md') as f:
     long_description = f.read()
 
@@ -42,20 +51,9 @@ setup(
         exclude=['ci'],
     ),
     extras_require={
-        'test': [
-            'pytest',
-            'pytest-mock',
-        ],
-        'dev': [
-            'pytest',
-            'pytest-mock',
-            'dagger.io',
-            'pre-commit',
-        ],
-        'doc': [
-            'sphinx',
-            'myst-parser',
-        ],
+        'dev': required_dev,
+        'doc': required_doc,
+        'test': required_test,
     },
     entry_points={
         'console_scripts': [
