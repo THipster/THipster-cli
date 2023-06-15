@@ -1,4 +1,15 @@
+from pathlib import Path
 from setuptools import setup, find_packages
+
+
+def get_extra_requires() -> dict[str, list[str]]:
+    extras_require = {}
+    for req_file in Path('.').glob('requirements-*.txt'):
+        extras_require[
+            req_file.stem.removeprefix('requirements-')
+        ] = req_file.read_text().splitlines()
+    return extras_require
+
 
 __version__ = '0.2.0'
 
@@ -41,22 +52,7 @@ setup(
     packages=find_packages(
         exclude=['ci'],
     ),
-    extras_require={
-        'test': [
-            'pytest',
-            'pytest-mock',
-        ],
-        'dev': [
-            'pytest',
-            'pytest-mock',
-            'dagger.io',
-            'pre-commit',
-        ],
-        'doc': [
-            'sphinx',
-            'myst-parser',
-        ],
-    },
+    extras_require=get_extra_requires(),
     entry_points={
         'console_scripts': [
             'thipster = thipstercli.cli:app',

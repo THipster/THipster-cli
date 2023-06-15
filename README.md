@@ -7,12 +7,26 @@ It allows users to write infrastructure as code in a simplified format, using ei
 
 Written entirely in Python, it leverages the Python CDK for Terraform to create Terraform files and apply them to the chosen provider.
 
+<p align="center">
+  <a href="https://github.com/THipster/THipster-cli/blob/main/LICENSE" target="_blank" alt="License">
+    <img src="https://img.shields.io/github/license/THipster/THipster-cli" alt="License">
+  </a>
+  <a href="https://thipstercli.readthedocs.io/en/latest/?badge=latest" target="_blank" alt="Read the docs documentation">
+    <img src="https://readthedocs.org/projects/thipstercli/badge/?version=latest" alt="Read the docs documentation">
+  </a>
+  <a href="https://pypi.org/project/thipstercli/" target="_blank" alt="PyPi package">
+    <img src="https://img.shields.io/pypi/v/thipstercli?color=brightgreen&label=pypi%20package" alt="Package version">
+  </a>
+  <a href="https://pypi.org/project/thipstercli/" target="_blank" alt="PyPi package">
+    <img src="https://img.shields.io/pypi/pyversions/thipstercli?color=brightgreen" alt="Supported Python versions">
+  </a>
+</p>
 
 ## Technology Stack
 Written in Python 3.11, thipster-cli is build using [Typer](https://typer.tiangolo.com/).
 
 ## Project Status
-THipster-cli is currently in an active development state. If you want to know more, please check the [CHANGELOG](CHANGELOG.md) for more details.
+THipster-cli is currently in an active development state. If you want to know more, please check the [CHANGELOG](https://github.com/THipster/THipster-cli/blob/main/CHANGELOG.md) for more details.
 
 ## Dependencies
 
