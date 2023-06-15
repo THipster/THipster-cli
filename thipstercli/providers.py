@@ -74,7 +74,7 @@ def __more_info_provider():
     print(
         Panel('For more information about a provider, run: thipster providers info \
 <provider>'),
-    ) if state.get('verbose', False) else None
+    ) if state.get('verbose') else None
 
 
 if __name__ == '__main__':

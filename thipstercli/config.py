@@ -22,7 +22,7 @@ def init_parameters() -> None:
 
     state.update(json.loads(config_path.read_text()))
 
-    if not state.get('auth_provider', None):
+    if not state.get('auth_provider'):
         return
 
     if not check_thipster_module_exists('auth', state['auth_provider']):
