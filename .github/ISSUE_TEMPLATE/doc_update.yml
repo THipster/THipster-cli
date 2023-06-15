@@ -23,37 +23,6 @@ body:
       Version(s) of the Pypi thipstercli's package documentation you are updating.
   validations:
     required: true
-- type: dropdown
-  id: host-os
-  attributes:
-    label: OS name
-    multiple: false
-    options:
-    - Linux
-    - MacOS
-    - Windows
-    - Other
-    - All
-  validations:
-    required: true
-- type: textarea
-  id: host-os-details
-  attributes:
-    label: OS details
-    placeholder: |
-      Version and details of the OS you're using. Are you running THipster-cli in a virtual machine?
-      If so, which VM software are you using and which operating systems and versions are used for the host and the guest?
-  validations:
-    required: true
-- type: textarea
-  id: python-version
-  attributes:
-    label: Python version(s)
-    placeholder: |
-      For which python version(s) is this documentation update?
-      You can find the Python version with: python --version
-  validations:
-    required: true
 - type: textarea
   id: additional-info
   attributes:
