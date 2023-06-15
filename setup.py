@@ -1,18 +1,20 @@
+from pathlib import Path
 from setuptools import setup, find_packages
+
+
+def get_extra_requires() -> dict[str, list[str]]:
+    extras_require = {}
+    for req_file in Path('.').glob('requirements-*.txt'):
+        extras_require[
+            req_file.stem.removeprefix('requirements-')
+        ] = req_file.read_text().splitlines()
+    return extras_require
+
 
 __version__ = '0.2.0'
 
 with open('requirements.txt') as f:
     required = f.read().splitlines()
-
-with open('requirements-dev.txt') as f:
-    required_dev = f.read().splitlines()
-
-with open('requirements-doc.txt') as f:
-    required_doc = f.read().splitlines()
-
-with open('requirements-test.txt') as f:
-    required_test = f.read().splitlines()
 
 with open('README.md') as f:
     long_description = f.read()
@@ -50,11 +52,7 @@ setup(
     packages=find_packages(
         exclude=['ci'],
     ),
-    extras_require={
-        'dev': required_dev,
-        'doc': required_doc,
-        'test': required_test,
-    },
+    extras_require=get_extra_requires(),
     entry_points={
         'console_scripts': [
             'thipster = thipstercli.cli:app',
