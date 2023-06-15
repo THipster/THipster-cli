@@ -1,7 +1,10 @@
+"""Configuration module for the application."""
 import json
-from rich import print
 from pathlib import Path
+
+from rich import print
 from typer import get_app_dir
+
 import thipstercli.constants as constants
 from thipstercli.helpers import check_thipster_module_exists
 
@@ -12,8 +15,7 @@ config_path: Path = Path(app_dir) / constants.CONFIG_FILE_NAME
 
 
 def init_parameters() -> None:
-    """Initializes the state
-    """
+    """Initialize the state of the application."""
     if not config_path.is_file():
         set_default_config()
         config_path.parent.mkdir(parents=True, exist_ok=True)
@@ -32,8 +34,7 @@ def init_parameters() -> None:
 
 
 def set_default_config() -> None:
-    """Sets the default configuration
-    """
+    """Set the default values for the user configuration file."""
     state['app_name'] = constants.APP_NAME
     state['verbose'] = constants.VERBOSE
     state['models_repository_provider'] = constants.MODELS_REPOSITORY_PROVIDER
@@ -45,8 +46,7 @@ def set_default_config() -> None:
 
 
 def update_config_file(parameters: dict[str, object]) -> None:
-    """Updates the config file
-    """
+    """Update the config file with the given parameters."""
     if config_path.is_file():
         config_file: dict[str, object] = json.loads(config_path.read_text())
         config_file.update(parameters)

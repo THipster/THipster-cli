@@ -1,12 +1,15 @@
+"""Pull request pipeline."""
 import anyio
-import test
 import precommit
+
+from .test import test
 
 
 async def pr_handler(version):
+    """Run the pre-commit and test pipelines in parallel."""
     async with anyio.create_task_group() as tg:
         tg.start_soon(precommit.pre_commit, version)
-        tg.start_soon(test.test, version)
+        tg.start_soon(test, version)
 
 if __name__ == '__main__':
     versions = ['3.11.3']

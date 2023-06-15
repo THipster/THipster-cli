@@ -1,17 +1,19 @@
+"""Release a python package on pypi and GitHub."""
 import sys
+
 import anyio
 import base
 import dagger
 
 
 async def release(version):
-
+    """Run python semantic-release."""
     async with dagger.Connection(dagger.Config(log_output=sys.stderr)) as client:
 
         src = client.host().directory('.')
 
         setup = (
-            base.pythonBase(client, version)
+            base.python_base(client, version)
             .with_exec(['apk', 'add', 'git', 'libgcc'])
             .with_exec(['git', 'config', '--global', 'safe.directory', '*'])
             .with_exec(['pip', 'install', 'python-semantic-release'])

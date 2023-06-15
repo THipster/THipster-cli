@@ -1,9 +1,11 @@
+"""Test the cli.py module."""
 import os
 from importlib.metadata import version as get_version
 
 from typer.testing import CliRunner
-from thipstercli.config import state
+
 from thipstercli.cli import app
+from thipstercli.config import state
 
 AUTH_FILE_PATH = 'tests/credentials.json'
 
@@ -11,6 +13,7 @@ runner = CliRunner(mix_stderr=False)
 
 
 def auth_test(func):
+    """Create a temporary credentials file for testing."""
     def wrapper(*args, **kwargs):
         delete_credentials = False
         if (
@@ -28,7 +31,8 @@ def auth_test(func):
 
             delete_credentials = True
             if os.getenv('GOOGLE_APPLICATION_CREDENTIALS_CONTENT') is None:
-                raise Exception('No credentials available')
+                no_credentials = 'No credentials available'
+                raise Exception(no_credentials)
 
             with open(AUTH_FILE_PATH, 'w') as auth_file:
                 auth_file.write(
@@ -46,6 +50,7 @@ def auth_test(func):
 
 
 def test_version():
+    """Test the version command."""
     result = runner.invoke(app, ['version'])
     version = get_version('thipstercli')
     assert result.exit_code == 0
@@ -53,6 +58,7 @@ def test_version():
 
 
 def test_version_thipster():
+    """Test the version command with thipster."""
     result = runner.invoke(app, ['version', '--thipster'])
     version = get_version('thipstercli')
     assert result.exit_code == 0
@@ -62,6 +68,7 @@ def test_version_thipster():
 
 
 def test_run_wrong_local_repository():
+    """Test the run command with a wrong local repository path."""
     result = runner.invoke(
         app, ['run', 'tests/resources/bucket.thips', '--local', 'wrong_path'],
     )
@@ -72,6 +79,7 @@ def test_run_wrong_local_repository():
 
 
 def test_run_wrong_file_path():
+    """Test the run command with a wrong input file path."""
     result = runner.invoke(app, ['run', 'wrong_path'])
     assert result.exit_code != 0
     assert 'Error : Path not found :' in result.stderr
@@ -80,7 +88,7 @@ def test_run_wrong_file_path():
 
 @auth_test
 def test_run_bucket():
-
+    """Test the run command with a gcp bucket resource."""
     result = runner.invoke(
         app, [
             'run', 'tests/resources/bucket.thips',
@@ -94,18 +102,21 @@ def test_run_bucket():
 
 
 def test_config_file_verbose(config_file):
+    """Test if the value of verbose is correctly set from the config file."""
     _ = config_file
     runner.invoke(app, ['--help'])
     assert state.get('verbose', False) is True
 
 
 def test_config_file_input_dir(config_file):
+    """Test if the value of input_dir is correctly set from the config file."""
     _ = config_file
     runner.invoke(app, ['--help'])
     assert state.get('input_dir', None) == 'test/input_directory'
 
 
 def test_config_file_output_dir(config_file):
+    """Test if the value of output_dir is correctly set from the config file."""
     _ = config_file
     runner.invoke(app, ['--help'])
     assert state.get('output_dir', None) == 'test/output_directory'

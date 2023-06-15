@@ -1,3 +1,4 @@
+"""Sphinx configuration file."""
 import os
 import sys
 
@@ -12,7 +13,7 @@ sys.path.insert(0, os.path.abspath('../..'))
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = 'Thipster-cli'
-copyright = '2023'
+# copyright = '2023'
 author = ''
 
 # -- General configuration ---------------------------------------------------

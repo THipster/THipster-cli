@@ -1,11 +1,13 @@
+"""Commands to manage the auth providers."""
 import typer
-from rich.panel import Panel
 from rich import print
+from rich.panel import Panel
+
 from thipstercli.config import state, update_config_file
 from thipstercli.helpers import (
+    check_thipster_module_exists,
     get_auth_provider_class,
     get_thipster_module_class_list,
-    check_thipster_module_exists,
 )
 
 app = typer.Typer(no_args_is_help=True)
@@ -13,8 +15,7 @@ app = typer.Typer(no_args_is_help=True)
 
 @app.command('list')
 def _list():
-    """List all the supported providers
-    """
+    """List all the supported providers."""
     state['providers'] = get_thipster_module_class_list('auth')
     provider_display = ''
     for provider in state['providers']:
@@ -25,8 +26,7 @@ def _list():
 
 @app.command('info')
 def info(provider: str):
-    """Get information about a provider
-    """
+    """Get information about a provider."""
     provider = check_provider_exists(provider)
 
     provider_class = get_auth_provider_class(provider)
@@ -34,9 +34,8 @@ def info(provider: str):
 
 
 @app.command('set')
-def set(provider: str):
-    """Set the provider to use
-    """
+def set_auth_provider(provider: str):
+    """Set the provider to use for the auth."""
     provider = check_provider_exists(provider)
 
     update_config_file(
@@ -49,8 +48,7 @@ def set(provider: str):
 
 @app.command('display')
 def display():
-    """Display the current provider
-    """
+    """Display the current provider."""
     if not state.get('auth_provider', None):
         print('No provider set.\nPlease use [bold]thipster providers set <provider>\
 [/bold] to set a provider')
@@ -59,8 +57,7 @@ def display():
 
 
 def check_provider_exists(provider: str) -> str:
-    """Checks if the given provider exists in the providers list
-    """
+    """Check if the given provider exists in the providers list."""
     if not check_thipster_module_exists('auth', provider):
         print(f'Provider [red]{provider.capitalize()}[/red] not found. \
 Please use one of the following providers:')

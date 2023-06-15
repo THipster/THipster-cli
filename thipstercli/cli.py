@@ -1,14 +1,16 @@
+"""THipster CLI."""
 import typer
-import thipstercli.constants as constants
 from rich import print
 from thipster import Engine as ThipsterEngine
 from thipster.auth import Google
+from thipster.engine.exceptions import THipsterException
 from thipster.parser import ParserFactory
 from thipster.repository import GithubRepo, LocalRepo
 from thipster.terraform import Terraform
-from thipster.engine.exceptions import THipsterException
 
+import thipstercli.constants as constants
 from thipstercli import providers
+from thipstercli.config import init_parameters, state
 from thipstercli.display import (
     error,
     print_if_verbose,
@@ -16,7 +18,6 @@ from thipstercli.display import (
     print_start_if_verbose,
     print_success_if_verbose,
 )
-from thipstercli.config import init_parameters, state
 
 init_parameters()
 
@@ -36,10 +37,10 @@ def _callback(
         help='Prints more information about the execution of the THipster CLI',
     ),
 ):
-    """THipster CLI
+    """THipster CLI.
 
     THipster is a tool that allows you to generate Terraform code
-from a simple DSL or yaml file.
+    from a simple DSL or yaml file.
     """
     state['verbose'] = verbose
 
@@ -52,8 +53,7 @@ def _version(
         help='Prints the version of the THipster tool',
     ),
 ):
-    """Prints the version of the THipster CLI
-    """
+    """Print the version of the THipster CLI."""
     print_package_version('thipstercli')
 
     if thipster:
@@ -103,8 +103,7 @@ def _run(
         help='Applies the generated Terraform code',
     ),
 ):
-    """Runs the THipster Tool on the given path
-    """
+    """Run the THipster Tool on the given path."""
     print_if_verbose(f'Running THipster on {path}')
 
     authentification_provider = providers.get_auth_provider_class(

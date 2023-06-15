@@ -11,14 +11,17 @@ Written entirely in Python, it leverages the Python CDK for Terraform to create 
   <a href="https://github.com/THipster/THipster-cli/blob/main/LICENSE" target="_blank" alt="License">
     <img src="https://img.shields.io/github/license/THipster/THipster-cli" alt="License">
   </a>
-  <a href="https://thipstercli.readthedocs.io/en/latest/?badge=latest" target="_blank" alt="Read the docs documentation">
-    <img src="https://readthedocs.org/projects/thipstercli/badge/?version=latest" alt="Read the docs documentation">
+  <a href="https://thipster-cli.readthedocs.io/en/latest/?badge=latest" target="_blank" alt="Read the docs documentation">
+    <img src="https://readthedocs.org/projects/thipster-cli/badge/?version=latest" alt="Read the docs documentation">
   </a>
   <a href="https://pypi.org/project/thipstercli/" target="_blank" alt="PyPi package">
     <img src="https://img.shields.io/pypi/v/thipstercli?color=brightgreen&label=pypi%20package" alt="Package version">
   </a>
   <a href="https://pypi.org/project/thipstercli/" target="_blank" alt="PyPi package">
     <img src="https://img.shields.io/pypi/pyversions/thipstercli?color=brightgreen" alt="Supported Python versions">
+  </a>
+  <a href="https://github.com/astral-sh/ruff">
+    <img src="https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/charliermarsh/ruff/main/assets/badge/v2.json" alt="Ruff" style="max-width:100%;">
   </a>
 </p>
 

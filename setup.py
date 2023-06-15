@@ -1,8 +1,11 @@
+"""Setup file for the THipster-cli package."""
 from pathlib import Path
-from setuptools import setup, find_packages
+
+from setuptools import find_packages, setup
 
 
 def get_extra_requires() -> dict[str, list[str]]:
+    """Get the extra requirements from the requirements-*.txt files."""
     extras_require = {}
     for req_file in Path('.').glob('requirements-*.txt'):
         extras_require[
