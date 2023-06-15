@@ -1,0 +1,9 @@
+APP_NAME = 'thipstercli'
+CONFIG_FILE_NAME = 'config.json'
+VERBOSE = False
+MODELS_REPOSITORY_PROVIDER = 'local'
+MODELS_REPOSITORY = 'THipster/models'
+MODELS_REPOSITORY_BRANCH = 'main'
+LOCAL_MODELS_REPOSITORY_PATH = 'models'
+INPUT_DIR = '.'
+OUTPUT_DIR = '.'
