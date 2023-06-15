@@ -47,6 +47,11 @@ def set_default_config() -> None:
 def update_config_file(parameters: dict[str, object]) -> None:
     """Updates the config file
     """
-    config_file: dict[str, object] = json.loads(config_path.read_text())
-    config_file.update(parameters)
+    if config_path.is_file():
+        config_file: dict[str, object] = json.loads(config_path.read_text())
+        config_file.update(parameters)
+    else:
+        config_path.parent.mkdir(parents=True, exist_ok=True)
+        config_file = parameters
+
     config_path.write_text(json.dumps(config_file, sort_keys=True, indent=4))

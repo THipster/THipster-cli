@@ -36,17 +36,24 @@ def config_file(
     create_config_file.write_text("""{
         "app_name": "thipstercli",
         "auth_provider": "google",
-        "input_dir": "test_input_directory",
+        "input_dir": "test/input_directory",
         "local_models_repository_path": "models",
         "models_repository": "THipster/models",
         "models_repository_branch": "main",
         "models_repository_provider": "local",
-        "output_dir": ".",
+        "output_dir": "test/output_directory",
         "verbose": true
 }""")
 
     init_parameters()
 
+    yield
+
+
+@pytest.fixture
+def empty_config_file(create_config_file):
+    create_config_file.write_text("""{}""")
+    init_parameters()
     yield
 
 
@@ -57,6 +64,8 @@ def config_file_wrong_provider(create_config_file):
     yield
 
 
-@pytest.fixture
-def get_config_file(config_path):
-    yield json.loads(config_path.read_text())
+def get_config_file() -> dict[str, object]:
+    return json.loads(
+        (Path(get_app_dir(constants.APP_NAME)) / constants.CONFIG_FILE_NAME)
+        .read_text(),
+    )

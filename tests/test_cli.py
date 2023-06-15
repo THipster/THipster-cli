@@ -2,7 +2,7 @@ import os
 from importlib.metadata import version as get_version
 
 from typer.testing import CliRunner
-
+from thipstercli.config import state
 from thipstercli.cli import app
 
 AUTH_FILE_PATH = 'tests/credentials.json'
@@ -91,3 +91,21 @@ def test_run_bucket():
     assert result.exit_code == 0
     assert 'thipster_cli_test_bucket' in result.output
     assert 'Terraform will perform the following actions' in result.output
+
+
+def test_config_file_verbose(config_file):
+    _ = config_file
+    runner.invoke(app, ['--help'])
+    assert state.get('verbose', False) is True
+
+
+def test_config_file_input_dir(config_file):
+    _ = config_file
+    runner.invoke(app, ['--help'])
+    assert state.get('input_dir', None) == 'test/input_directory'
+
+
+def test_config_file_output_dir(config_file):
+    _ = config_file
+    runner.invoke(app, ['--help'])
+    assert state.get('output_dir', None) == 'test/output_directory'
