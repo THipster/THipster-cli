@@ -2,6 +2,12 @@
 
 <!--next-version-placeholder-->
 
+## v0.2.1 (2023-06-15)
+
+### :wrench:
+
+* :wrench: feat: update doc, ci and config files to public repository standard ([#17](https://github.com/THipster/THipster-cli/issues/17)) ([`aed625d`](https://github.com/THipster/THipster-cli/commit/aed625ddc477aaadcd0a8e5dae7150369b6775ef))
+
 ## v0.2.0 (2023-06-15)
 
 ### :sparkles:
