@@ -58,7 +58,7 @@ setup(
     extras_require=get_extra_requires(),
     entry_points={
         'console_scripts': [
-            'thipster = thipstercli.cli:app',
+            'thipster = thipstercli.cli:main_app',
         ],
     },
 )

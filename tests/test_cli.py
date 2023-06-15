@@ -6,7 +6,7 @@ from pathlib import Path
 from typer import get_app_dir
 from typer.testing import CliRunner
 
-from thipstercli.cli import app
+from thipstercli.cli import main_app
 from thipstercli.config import state
 
 AUTH_FILE_PATH = 'tests/credentials.json'
@@ -51,7 +51,7 @@ def auth_test(func):
 
 def test_version():
     """Test the version command."""
-    result = runner.invoke(app, ['version'])
+    result = runner.invoke(main_app, ['version'])
     version = get_version('thipstercli')
     assert result.exit_code == 0
     assert 'THipster-cli' and version in result.output
@@ -59,7 +59,7 @@ def test_version():
 
 def test_version_thipster():
     """Test the version command with thipster."""
-    result = runner.invoke(app, ['version', '--thipster'])
+    result = runner.invoke(main_app, ['version', '--thipster'])
     version = get_version('thipstercli')
     assert result.exit_code == 0
     assert 'THipster-cli' and version in result.output
@@ -70,17 +70,15 @@ def test_version_thipster():
 def test_run_wrong_local_repository():
     """Test the run command with a wrong local repository path."""
     result = runner.invoke(
-        app, ['run', 'tests/resources/bucket.thips', '--local', 'wrong_path'],
+        main_app, ['run', 'tests/resources/bucket.thips', '-rl', 'wrong_path'],
     )
     assert result.exit_code != 0
-    assert 'Error : No such file or directory :' \
-        in result.stderr
-    assert 'wrong_path' in result.stderr
+    assert "Couldn't find wrong_path local repository" in result.stderr
 
 
 def test_run_wrong_file_path():
-    """Test the run command with a wrong input file path."""
-    result = runner.invoke(app, ['run', 'wrong_path'])
+    """Test the run command with a wrong local repository path."""
+    result = runner.invoke(main_app, ['run', 'wrong_path'])
     assert result.exit_code != 0
     assert 'Error : Path not found :' in result.stderr
     assert 'wrong_path' in result.stderr
@@ -90,9 +88,9 @@ def test_run_wrong_file_path():
 def test_run_bucket():
     """Test the run command with a gcp bucket resource."""
     result = runner.invoke(
-        app, [
+        main_app, [
             'run', 'tests/resources/bucket.thips',
-            '-l', 'tests/resources/models',
+            '-rl', 'tests/resources/models',
         ],
     )
 
@@ -104,19 +102,19 @@ def test_run_bucket():
 def test_config_file_verbose(config_file):
     """Test if the value of verbose is correctly set from the config file."""
     _ = config_file
-    runner.invoke(app, ['--help'])
+    runner.invoke(main_app, ['--help'])
     assert state.get('verbose', False) is True
 
 
 def test_config_file_input_dir(config_file):
     """Test if the value of input_dir is correctly set from the config file."""
     _ = config_file
-    runner.invoke(app, ['--help'])
+    runner.invoke(main_app, ['--help'])
     assert state.get('input_dir', None) == 'test/input_directory'
 
 
 def test_config_file_output_dir(config_file):
     """Test if the value of output_dir is correctly set from the config file."""
     _ = config_file
-    runner.invoke(app, ['--help'])
+    runner.invoke(main_app, ['--help'])
     assert state.get('output_dir', None) == 'test/output_directory'

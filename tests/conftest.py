@@ -64,14 +64,6 @@ def empty_config_file(create_config_file):
     yield
 
 
-@pytest.fixture
-def config_file_wrong_provider(create_config_file):
-    """Create a user config file with the auth provider set to 'notfound'."""
-    create_config_file.write_text("""{"auth_provider": "notfound"}""")
-    init_parameters()
-    yield
-
-
 def get_config_file() -> dict[str, object]:
     """Return the user config file as a dictionary."""
     return json.loads(
