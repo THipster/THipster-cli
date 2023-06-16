@@ -5,7 +5,7 @@ import typer
 from rich import print
 from thipster import Engine as ThipsterEngine
 from thipster.auth import Google
-from thipster.engine.exceptions import THipsterException
+from thipster.engine.exceptions import THipsterError
 from thipster.parser import ParserFactory
 from thipster.repository import GithubRepo, LocalRepo
 from thipster.terraform import Terraform
@@ -145,7 +145,7 @@ def _run(
 
         print_if_verbose('Done! :tada:')
 
-    except THipsterException as e:
+    except THipsterError as e:
         error(e.message)
     except FileNotFoundError as e:
         error(

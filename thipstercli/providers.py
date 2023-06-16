@@ -13,6 +13,11 @@ from thipstercli.helpers import (
 provider_app = typer.Typer(no_args_is_help=True)
 
 
+@provider_app.callback()
+def _callback():
+    """Manage authentification providers."""
+
+
 @provider_app.command('list')
 def _list():
     """List all the supported providers."""
