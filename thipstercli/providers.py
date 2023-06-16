@@ -10,10 +10,10 @@ from thipstercli.helpers import (
     get_thipster_module_class_list,
 )
 
-app = typer.Typer(no_args_is_help=True)
+provider_app = typer.Typer(no_args_is_help=True)
 
 
-@app.command('list')
+@provider_app.command('list')
 def _list():
     """List all the supported providers."""
     state['providers'] = get_thipster_module_class_list('auth')
@@ -24,7 +24,7 @@ def _list():
     __more_info_provider()
 
 
-@app.command('info')
+@provider_app.command('info')
 def info(provider: str):
     """Get information about a provider."""
     provider = check_provider_exists(provider)
@@ -33,7 +33,7 @@ def info(provider: str):
     print(Panel(provider_class.__doc__, title=provider))
 
 
-@app.command('set')
+@provider_app.command('set')
 def set_auth_provider(provider: str):
     """Set the provider to use for the auth."""
     provider = check_provider_exists(provider)
@@ -46,7 +46,7 @@ def set_auth_provider(provider: str):
     __more_info_provider()
 
 
-@app.command('display')
+@provider_app.command('display')
 def display():
     """Display the current provider."""
     if not state.get('auth_provider', None):
@@ -75,4 +75,4 @@ def __more_info_provider():
 
 
 if __name__ == '__main__':
-    app()
+    provider_app()

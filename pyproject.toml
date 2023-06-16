@@ -47,6 +47,7 @@ select = [
     "ICN",
     "INP",
     "PYI",
+    "PTH",
     "Q",
     "RSE",
     "RET",

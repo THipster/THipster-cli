@@ -15,6 +15,15 @@ def error(*args, **kwargs):
     raise typer.Exit(1)
 
 
+def warn(*args, **kwargs):
+    """Print a warning message."""
+    print(
+        '[bold][yellow]Warning :[/yellow][/bold]',
+        *args, file=sys.stdout, **kwargs,
+    )
+    sys.stdin.flush()
+
+
 def print_if_verbose(text: str):
     """Print the given text if the verbose flag is set."""
     print(text) if state.get('verbose', False) else None

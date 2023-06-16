@@ -1,4 +1,6 @@
 """THipster CLI."""
+from pathlib import Path
+
 import typer
 from rich import print
 from thipster import Engine as ThipsterEngine
@@ -9,8 +11,8 @@ from thipster.repository import GithubRepo, LocalRepo
 from thipster.terraform import Terraform
 
 import thipstercli.constants as constants
-from thipstercli import providers
-from thipstercli.config import init_parameters, state
+from thipstercli import providers, repository
+from thipstercli.config import app_dir, init_parameters, state
 from thipstercli.display import (
     error,
     print_if_verbose,
@@ -21,15 +23,16 @@ from thipstercli.display import (
 
 init_parameters()
 
-app = typer.Typer(
+main_app = typer.Typer(
     name=state.get(
         'app_name', constants.APP_NAME,
     ), no_args_is_help=True,
 )
-app.add_typer(providers.app, name='providers')
+main_app.add_typer(providers.provider_app, name='providers')
+main_app.add_typer(repository.repository_app, name='repository')
 
 
-@app.callback()
+@main_app.callback()
 def _callback(
     verbose: bool = typer.Option(
         state.get('verbose', constants.VERBOSE),
@@ -45,7 +48,7 @@ def _callback(
     state['verbose'] = verbose
 
 
-@app.command('version')
+@main_app.command('version')
 def _version(
     thipster: bool = typer.Option(
         False,
@@ -60,20 +63,20 @@ def _version(
         print_package_version('thipster')
 
 
-@app.command('run')
+@main_app.command('run')
 def _run(
     path: str = typer.Argument(
         state.get('input_dir', constants.INPUT_DIR),
         help='Path to the file or directory to run',
     ),
-    local: str = typer.Option(
+    local_repository: str = typer.Option(
         None,
-        '--local', '-l',
-        help='Runs the THipster Tool locally, importing models from the given path',
+        '--repository-local', '-rl',
+        help='Runs the THipster Tool using the given local model repository',
     ),
-    repository: str = typer.Option(
-        state.get('models_repository', constants.MODELS_REPOSITORY),
-        '--repository-name', '-rn',
+    online_repository: str = typer.Option(
+        None,
+        '--repository-online', '-ro',
         help='Runs the THipster Tool using the given model repository',
     ),
     repository_branch: str = typer.Option(
@@ -82,7 +85,7 @@ def _run(
             constants.MODELS_REPOSITORY_BRANCH,
         ),
         '--repository-branch', '-rb',
-        help='Runs the THipster Tool using the given model repository branch',
+        help='Runs the THipster Tool using the given online model repository branch',
     ),
     provider: str = typer.Option(
         None,
@@ -106,11 +109,7 @@ def _run(
         f'Provider Auth set to [green]{authentification_provider.__name__}[/green]',
     )
 
-    repo = LocalRepo(local) if local else GithubRepo(
-        repository,
-        repository_branch,
-    )
-    print_if_verbose('Repo set-up successful! :memo:')
+    repo = get_repo(local_repository, online_repository, repository_branch)
 
     engine = ThipsterEngine(
         ParserFactory(),
@@ -156,5 +155,52 @@ def _run(
         error(*e.args)
 
 
+def get_repo(local_path, online_path, branch):
+    """Get model repository from cli args or config."""
+    if local_path:
+        if local_path in repository.list_installed_repos():
+            repo_path = Path(app_dir) \
+                / constants.LOCAL_MODELS_REPOSITORY_PATH \
+                / local_path
+            print_if_verbose(f'Using local model repository : {repo_path}')
+            return LocalRepo(repo_path)
+
+        if Path(local_path).exists():
+            print_if_verbose(f'Using local model repository : {local_path}')
+            return LocalRepo(local_path)
+
+        error(f"Couldn't find {local_path} local repository")
+        return None
+
+    if online_path:
+        print_if_verbose(
+            f'Using online model repository : {online_path}/{branch}',
+        )
+        return GithubRepo(
+            online_path,
+            branch,
+        )
+
+    match state.get('repository_recovery_mode'):
+        case 'local':
+            repo_path = Path(app_dir) / 'models' / \
+                state.get('models_repository')
+            print_if_verbose(f'Using local model repository : {repo_path}')
+            return LocalRepo(repo_path)
+
+        case 'online':
+            repo_path = state.get('models_repository')
+            print_if_verbose(
+                f'Using online model repository : {repo_path}/{branch}',
+            )
+            return GithubRepo(
+                repo_path,
+                branch,
+            )
+
+    error('No repository set')
+    return None
+
+
 if __name__ == '__main__':
-    app()
+    main_app()

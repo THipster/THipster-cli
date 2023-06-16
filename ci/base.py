@@ -51,6 +51,7 @@ def thipster_base(client: dagger.Client, version: str) -> dagger.Container:
         # Install NodeJS
         .with_exec(['apk', 'add', 'nodejs', 'npm'])
         # Install THipster dependencies
+        .with_exec(['apk', 'add', 'git'])
         .with_file(requirements, src.file(requirements))
         .with_exec(['pip', 'install', '-r', requirements])
         .with_exec(['pip', 'install', 'thipster[google]'])
