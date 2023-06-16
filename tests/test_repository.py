@@ -1,5 +1,5 @@
 """Test the repository subcommand."""
-import os
+from pathlib import Path
 
 import pytest
 from typer import get_app_dir
@@ -14,26 +14,36 @@ runner = CliRunner(mix_stderr=False)
 
 @pytest.fixture
 def create_models_directory():
-    models_path = os.path.join(get_app_dir(constants.APP_NAME), 'models')
-    os.mkdir(models_path)
+    """Create the model subdirectory if needed."""
+    models_path = Path(get_app_dir(constants.APP_NAME)) / 'models'
+    clean_up = False
+    if not models_path.exists():
+        clean_up = True
+        Path.mkdir(models_path)
 
     yield models_path
 
-    if os.path.exists(models_path):
-        os.rmdir(models_path)
+    if clean_up and models_path.exists():
+        models_path.rmdir()
 
 
 @pytest.fixture
 def create_example_repo(create_models_directory):
-    repo_path = os.path.join(create_models_directory, 'example')
-    os.mkdir(repo_path)
+    """Create an example model repository if needed."""
+    repo_path = Path(create_models_directory) / 'example'
+    clean_up = False
+    if not repo_path.exists():
+        clean_up = True
+        repo_path.mkdir()
 
     yield 'example'
 
-    os.rmdir(repo_path)
+    if clean_up and repo_path.exists():
+        repo_path.rmdir()
 
 
 def test_list_repositories(create_example_repo):
+    """Test `thipster repository list` command."""
     example_repo = create_example_repo
 
     result = runner.invoke(repository_app, ['list'])
@@ -43,6 +53,7 @@ def test_list_repositories(create_example_repo):
 
 
 def test_use_repository(create_example_repo):
+    """Test `thipster repository use` command."""
     _ = create_example_repo
 
     runner.invoke(repository_app, ['use', 'example'])

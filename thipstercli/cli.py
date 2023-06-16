@@ -1,5 +1,5 @@
 """THipster CLI."""
-import os
+from pathlib import Path
 
 import typer
 from rich import print
@@ -159,14 +159,13 @@ def get_repo(local_path, online_path, branch):
     """Get model repository from cli args or config."""
     if local_path:
         if local_path in repository.list_installed_repos():
-            repo_path = os.path.join(
-                app_dir, 'models',
-                constants.LOCAL_MODELS_REPOSITORY_PATH,
-            )
+            repo_path = Path(app_dir) \
+                / constants.LOCAL_MODELS_REPOSITORY_PATH \
+                / local_path
             print_if_verbose(f'Using local model repository : {repo_path}')
             return LocalRepo(repo_path)
 
-        if os.path.exists(local_path):
+        if Path(local_path).exists():
             print_if_verbose(f'Using local model repository : {local_path}')
             return LocalRepo(local_path)
 
@@ -184,10 +183,8 @@ def get_repo(local_path, online_path, branch):
 
     match state.get('repository_recovery_mode'):
         case 'local':
-            repo_path = os.path.join(
-                app_dir, 'models',
-                state.get('models_repository'),
-            )
+            repo_path = Path(app_dir) / 'models' / \
+                state.get('models_repository')
             print_if_verbose(f'Using local model repository : {repo_path}')
             return LocalRepo(repo_path)
 

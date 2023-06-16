@@ -1,6 +1,7 @@
 """Functions to get thipster classes and modules."""
 import importlib
 import os
+from pathlib import Path
 
 
 def get_thipster_class(
@@ -77,7 +78,7 @@ def get_thipster_module_class_list(module_name: str) -> list[str]:
         f'thipster.{module_name.lower()}',
     )
     module_class_list = []
-    with os.scandir(os.path.dirname(module.__file__)) as entries:
+    with os.scandir(Path(module.__file__).parent) as entries:
         for entry in entries:
             if entry.is_file() and entry.name.endswith('.py') and not \
                     entry.name.startswith('__'):

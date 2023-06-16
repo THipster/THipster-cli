@@ -1,30 +1,30 @@
-import os
+"""Repository subcommand."""
 import json
+import os
 import shutil
-
+from pathlib import Path
 from typing import Annotated
-from git import Repo
-import typer
-from rich.panel import Panel
-from rich import print
-from .config import app_dir, state, update_config_file
-from .display import error, warn
 
+import typer
+from git import Repo
+from rich import print
+from rich.panel import Panel
+
+from .config import app_dir, state, update_config_file
 from .constants import LOCAL_MODELS_REPOSITORY_PATH
+from .display import error, warn
 
 repository_app = typer.Typer(no_args_is_help=True)
 
 
 @repository_app.callback()
 def main():
-    """Manage locally installed THipster repositories
-    """
+    """Manage locally installed THipster repositories."""
 
 
 @repository_app.command('list')
-def list():
-    """List all the locally installed THipster repositories
-    """
+def list_repositories():
+    """List all the locally installed THipster repositories."""
     downloaded_repos = list_installed_repos()
 
     repos_display = ''
@@ -36,12 +36,14 @@ def list():
 
 @repository_app.command('use')
 def use(
-    repository: Annotated[str, typer.Argument(help='The local repository to use')],
+    repository: Annotated[
+        str, typer.Argument(
+            default=...,
+            help='The local repository to use',
+        ),
+    ],
 ):
-    """Set the repository to use
-
-
-    """
+    """Set the repository to use."""
     downloaded_repos = list_installed_repos()
 
     if repository not in downloaded_repos:
@@ -59,23 +61,23 @@ def download(
     url: Annotated[
         str,
         typer.Argument(
+            default=...,
             help='The thipster repository to download. (*.git link)',
         ),
     ],
 ):
-    """Download an online git repository as THipster repository
-    """
+    """Download an online git repository as THipster repository."""
     if not url.endswith('.git'):
         error('Use .git link to repository')
 
-    repositories_path = os.path.join(app_dir, LOCAL_MODELS_REPOSITORY_PATH)
-    if not os.path.exists(repositories_path):
-        os.mkdir(repositories_path)
+    repositories_path = Path(app_dir) / LOCAL_MODELS_REPOSITORY_PATH
+    if not repositories_path.exists():
+        repositories_path.mkdir()
 
-    clone_to = os.path.join('/tmp', 'thipster')
+    clone_to = Path('/tmp') / 'thipster'
     Repo.clone_from(url, clone_to)
 
-    with open(os.path.join(clone_to, 'thipster-config.json')) as f:
+    with Path.open(Path(clone_to) / 'thipster-config.json') as f:
         config_path = f.read()
 
     try:
@@ -91,14 +93,14 @@ def download(
         shutil.rmtree(clone_to)
         error('Configuration error in thipster-config.json')
 
-    if os.path.exists(repo_name):
+    if Path(repo_name).exists():
         shutil.rmtree(clone_to)
         error(f'Repository named {repo_name} already installed')
 
     try:
         shutil.move(
-            os.path.join(clone_to, repo_directory),
-            os.path.join(repositories_path, repo_name),
+            Path(clone_to) / repo_directory,
+            Path(repositories_path) / repo_name,
         )
     except Exception:
         shutil.rmtree(clone_to)
@@ -108,9 +110,10 @@ def download(
 
 
 def list_installed_repos():
+    """List all locally installed THipster repository."""
     downloaded_repos = []
-    repositories_path = os.path.join(app_dir, LOCAL_MODELS_REPOSITORY_PATH)
-    if os.path.exists(repositories_path):
+    repositories_path = Path(app_dir) / LOCAL_MODELS_REPOSITORY_PATH
+    if Path(repositories_path).exists():
         downloaded_repos = os.listdir(repositories_path)
 
     return downloaded_repos
