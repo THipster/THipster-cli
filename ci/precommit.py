@@ -1,3 +1,4 @@
+"""Step to run pre-commit in the pipeline."""
 import sys
 
 import anyio
@@ -6,14 +7,13 @@ import dagger
 
 
 async def pre_commit(version: str):
-    """Runs pre-commit on all project files
-    """
+    """Run pre-commit on all project files."""
     async with dagger.Connection(dagger.Config(log_output=sys.stderr)) as client:
 
         src = client.host().directory('.')
 
         setup = (
-            base.pythonBase(client, version)
+            base.python_base(client, version)
             .with_exec(['apk', 'add', 'git', 'libgcc', 'gcc', 'musl-dev'])
             .with_exec(['git', 'config', '--global', 'safe.directory', '*'])
             .with_exec(['pip', 'install', 'pre-commit'])

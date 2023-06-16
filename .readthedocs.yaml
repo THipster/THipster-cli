@@ -10,9 +10,10 @@ build:
   os: ubuntu-22.04
   tools:
     python: "3.11"
+    nodejs: "16"
   jobs:
     pre_build:
-      - pip install typer-cli
+      - pip install thipster[google] typer-cli
       - typer thipstercli/cli.py utils docs --name thipster --output docs/source/typer-docs.md
       - cp README.md docs/source/README.md
 

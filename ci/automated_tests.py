@@ -1,12 +1,13 @@
+"""Step to run automated tests in the pipeline."""
 import sys
+
 import anyio
 import base
 import dagger
 
 
-async def test(version: str):
-    """Runs all the automated tests
-    """
+async def test_all(version: str):
+    """Run all the automated tests."""
     async with dagger.Connection(dagger.Config(log_output=sys.stderr)) as client:
 
         gcp_credentials_content = (
@@ -16,7 +17,7 @@ async def test(version: str):
         src = client.host().directory('.')
 
         setup = (
-            base.thipsterBase(client, version)
+            base.thipster_base(client, version)
             .with_mounted_directory('/src', src)
             .with_workdir('/src')
             .with_exec(['pip', 'install', '-e', '.[test]'])
@@ -34,4 +35,4 @@ async def test(version: str):
 
 if __name__ == '__main__':
     python_version = '3.11'
-    anyio.run(test, python_version)
+    anyio.run(test_all, python_version)

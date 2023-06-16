@@ -1,3 +1,4 @@
+"""Configuration file default values."""
 APP_NAME = 'thipstercli'
 CONFIG_FILE_NAME = 'config.json'
 VERBOSE = False

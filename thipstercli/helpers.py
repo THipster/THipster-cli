@@ -1,5 +1,6 @@
-import os
+"""Functions to get thipster classes and modules."""
 import importlib
+import os
 
 
 def get_thipster_class(
@@ -7,6 +8,23 @@ def get_thipster_class(
     module_name: str,
     class_name_extension: str,
 ) -> type:
+    """Get the class from the given thipster module.
+
+    Parameters
+    ----------
+    parent_module_name : str
+        The path to the module relative to the thipster package.
+    module_name : str
+        The name of the module.
+    class_name_extension : str
+        The class name extension (e.g. 'Auth' for 'GoogleAuth' class in the google
+        module), if the class name differs from the module name.
+
+    Returns
+    -------
+    type
+        The thipster class.
+    """
     module = importlib.import_module(
         f'thipster.{parent_module_name.lower()}.{module_name.lower()}',
     )
@@ -18,6 +36,20 @@ def get_thipster_class(
 
 
 def check_thipster_module_exists(parent_module_name: str, module_name: str) -> bool:
+    """Check if the given thipster module exists.
+
+    Parameters
+    ----------
+    parent_module_name : str
+        The path to the module relative to the thipster package.
+    module_name : str
+        The name of the module to check.
+
+    Returns
+    -------
+    bool
+        True if the module exists, False otherwise.
+    """
     try:
         importlib.import_module(
             f'thipster.{parent_module_name.lower()}.{module_name.lower()}',
@@ -28,7 +60,19 @@ def check_thipster_module_exists(parent_module_name: str, module_name: str) -> b
 
 
 def get_thipster_module_class_list(module_name: str) -> list[str]:
-    # return list of classes in module
+    """Get the list of classes in the given thipster module.
+
+    Parameters
+    ----------
+    module_name : str
+        The path to the module relative to the thipster package. (e.g. 'auth' for
+        thipster.auth)
+
+    Returns
+    -------
+    list[str]
+        The list of classes contained in the module.
+    """
     module = importlib.import_module(
         f'thipster.{module_name.lower()}',
     )
@@ -44,4 +88,5 @@ def get_thipster_module_class_list(module_name: str) -> list[str]:
 
 
 def get_auth_provider_class(provider: str) -> type:
+    """Get the auth provider class from the given provider name."""
     return get_thipster_class('auth', provider, 'Auth')
