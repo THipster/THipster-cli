@@ -1,6 +1,5 @@
 """Pytest configuration file."""
 import json
-import os
 from pathlib import Path
 
 import pytest
@@ -26,13 +25,13 @@ def config_path():
 @pytest.fixture
 def create_config_file(config_path):
     """Create a user config file."""
-    if not os.path.exists(config_path):
+    if not config_path.exists():
         config_path.parent.mkdir(parents=True, exist_ok=True)
 
     yield config_path
 
-    if os.path.exists(config_path):
-        os.remove(config_path)
+    if config_path.exists():
+        Path(config_path).unlink()
 
 
 @pytest.fixture

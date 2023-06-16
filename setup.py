@@ -16,10 +16,10 @@ def get_extra_requires() -> dict[str, list[str]]:
 
 __version__ = '0.2.1'
 
-with open('requirements.txt') as f:
+with Path('requirements.txt').open() as f:
     required = f.read().splitlines()
 
-with open('README.md') as f:
+with Path('README.md').open() as f:
     long_description = f.read()
 
 setup(

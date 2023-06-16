@@ -50,6 +50,10 @@ select = [
     "Q",
     "RSE",
     "RET",
+    "SIM",
+    "TID",
+    "ARG",
+    "RUF",
 ]
 
 [tool.ruff.pydocstyle]

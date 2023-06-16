@@ -71,14 +71,6 @@ def _run(
         '--local', '-l',
         help='Runs the THipster Tool locally, importing models from the given path',
     ),
-    repository_provider: str = typer.Option(
-        state.get(
-            'models_repository_provider',
-            constants.MODELS_REPOSITORY_PROVIDER,
-        ),
-        '--repository-provider', '-rp',
-        help='Runs the THipster Tool using the given model repository provider',
-    ),
     repository: str = typer.Option(
         state.get('models_repository', constants.MODELS_REPOSITORY),
         '--repository-name', '-rn',

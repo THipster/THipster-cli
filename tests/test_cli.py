@@ -1,7 +1,9 @@
 """Test the cli.py module."""
 import os
 from importlib.metadata import version as get_version
+from pathlib import Path
 
+from typer import get_app_dir
 from typer.testing import CliRunner
 
 from thipstercli.cli import app
@@ -17,11 +19,9 @@ def auth_test(func):
     def wrapper(*args, **kwargs):
         delete_credentials = False
         if (
-            not os.path.exists(
-                os.path.join(
-                    os.getenv('HOME'),
-                    '.config/gcloud/application_default_credentials.json',
-                ),
+            not Path.exists(
+                Path(get_app_dir('gcloud')) /
+                'application_default_credentials.json',
             )
             and (
                 os.getenv('GOOGLE_APPLICATION_CREDENTIALS') is not None
@@ -34,7 +34,7 @@ def auth_test(func):
                 no_credentials = 'No credentials available'
                 raise Exception(no_credentials)
 
-            with open(AUTH_FILE_PATH, 'w') as auth_file:
+            with Path(AUTH_FILE_PATH).open('w') as auth_file:
                 auth_file.write(
                     os.environ['GOOGLE_APPLICATION_CREDENTIALS_CONTENT'],
                 )
@@ -43,7 +43,7 @@ def auth_test(func):
         res = func(*args, **kwargs)
 
         if delete_credentials:
-            os.remove(AUTH_FILE_PATH)
+            Path(AUTH_FILE_PATH).unlink()
 
         return res
     return wrapper
