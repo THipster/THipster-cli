@@ -2,6 +2,12 @@
 
 <!--next-version-placeholder-->
 
+## v0.3.0 (2023-06-16)
+
+### :sparkles:
+
+* :sparkles: feat: add offline mode ([#19](https://github.com/THipster/THipster-cli/issues/19)) ([`0e89e1c`](https://github.com/THipster/THipster-cli/commit/0e89e1c671ce1b4c30673adc9ac70366e70af7cb))
+
 ## v0.2.2 (2023-06-16)
 
 
