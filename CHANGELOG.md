@@ -2,6 +2,12 @@
 
 <!--next-version-placeholder-->
 
+## v0.3.1 (2023-06-16)
+
+### :arrow_up:
+
+* :arrow_up: feat: Bump thipster from v0.16.4 to v0.17.1 ([#22](https://github.com/THipster/THipster-cli/issues/22)) ([`f62d045`](https://github.com/THipster/THipster-cli/commit/f62d0458e71c418bda29938772142176ca888ec4))
+
 ## v0.3.0 (2023-06-16)
 
 ### :sparkles:
