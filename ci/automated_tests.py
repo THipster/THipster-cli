@@ -6,7 +6,7 @@ import base
 import dagger
 
 
-async def test(version: str):
+async def test_all(version: str):
     """Run all the automated tests."""
     async with dagger.Connection(dagger.Config(log_output=sys.stderr)) as client:
 
@@ -35,4 +35,4 @@ async def test(version: str):
 
 if __name__ == '__main__':
     python_version = '3.11'
-    anyio.run(test, python_version)
+    anyio.run(test_all, python_version)
