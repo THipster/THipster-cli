@@ -10,9 +10,9 @@ from git import Repo
 from rich import print
 from rich.panel import Panel
 
-from .config import app_dir, state, update_config_file
-from .constants import LOCAL_MODELS_REPOSITORY_PATH
-from .display import error, warn
+from thipstercli.config import app_dir, state, update_config_file
+from thipstercli.constants import LOCAL_MODELS_REPOSITORY_PATH
+from thipstercli.display import error, warn
 
 repository_app = typer.Typer(no_args_is_help=True)
 

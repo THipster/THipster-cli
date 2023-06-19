@@ -2,9 +2,9 @@
 import pytest
 from typer.testing import CliRunner
 
+from thipstercli.commands.providers import check_provider_exists, provider_app
 from thipstercli.config import init_parameters, state
 from thipstercli.helpers import get_auth_provider_class
-from thipstercli.providers import check_provider_exists, provider_app
 
 from .conftest import get_config_file
 
