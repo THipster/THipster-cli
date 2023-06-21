@@ -43,7 +43,7 @@ for command in os.scandir(Path(module.__file__).parent):
 @main_app.callback()
 def _callback(
     verbose: bool = typer.Option(
-        state.get('verbose', constants.VERBOSE),
+        False,
         '--verbose', '-v',
         help='Prints more information about the execution of the THipster CLI',
     ),
@@ -53,7 +53,8 @@ def _callback(
     THipster is a tool that allows you to generate Terraform code
     from a simple DSL or yaml file.
     """
-    state['verbose'] = verbose
+    if not state.get('verbose', constants.VERBOSE):
+        state['verbose'] = verbose
 
 
 @main_app.command('version')
