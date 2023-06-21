@@ -2,6 +2,12 @@
 
 <!--next-version-placeholder-->
 
+## v0.3.3 (2023-06-21)
+
+### :arrow_up:
+
+* :arrow_up: chore(deps): Bump sphinx from 6.2.1 to 7.0.1 ([#25](https://github.com/THipster/THipster-cli/issues/25)) ([`e021cad`](https://github.com/THipster/THipster-cli/commit/e021cad67cdda65ef3bd70f6ace08faddf2acc0e))
+
 ## v0.3.2 (2023-06-21)
 
 ### :arrow_up:
