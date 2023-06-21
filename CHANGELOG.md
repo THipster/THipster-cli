@@ -2,6 +2,12 @@
 
 <!--next-version-placeholder-->
 
+## v0.3.4 (2023-06-21)
+
+### :arrow_up:
+
+* :arrow_up: chore(deps): Upgrade dev & test ([#31](https://github.com/THipster/THipster-cli/issues/31)) ([`c512b7f`](https://github.com/THipster/THipster-cli/commit/c512b7f7a9eb95f1102cd72447a34ab33a1ee47d))
+
 ## v0.3.3 (2023-06-21)
 
 ### :arrow_up:
