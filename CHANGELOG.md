@@ -2,6 +2,12 @@
 
 <!--next-version-placeholder-->
 
+## v0.3.2 (2023-06-21)
+
+### :arrow_up:
+
+* :arrow_up: chore(deps): Bump myst-parser from 1.0.0 to 2.0.0 ([#27](https://github.com/THipster/THipster-cli/issues/27)) ([`e0bb1dc`](https://github.com/THipster/THipster-cli/commit/e0bb1dca80c330a04e9975a2ebeb775ae39d55e1))
+
 ## v0.3.1 (2023-06-16)
 
 ### :arrow_up:
