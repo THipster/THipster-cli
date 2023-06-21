@@ -7,7 +7,7 @@ from typer.testing import CliRunner
 
 import thipstercli.constants as constants
 from tests.conftest import get_config_file
-from thipstercli.repository import repository_app
+from thipstercli.commands.repository import repository_app
 
 runner = CliRunner(mix_stderr=False)
 

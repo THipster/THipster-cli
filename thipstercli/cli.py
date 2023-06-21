@@ -1,4 +1,6 @@
 """THipster CLI."""
+import importlib
+import os
 from pathlib import Path
 
 import typer
@@ -11,7 +13,7 @@ from thipster.repository import GithubRepo, LocalRepo
 from thipster.terraform import Terraform
 
 import thipstercli.constants as constants
-from thipstercli import providers, repository
+from thipstercli.commands import providers, repository
 from thipstercli.config import app_dir, init_parameters, state
 from thipstercli.display import (
     error,
@@ -28,8 +30,14 @@ main_app = typer.Typer(
         'app_name', constants.APP_NAME,
     ), no_args_is_help=True,
 )
-main_app.add_typer(providers.provider_app, name='providers')
-main_app.add_typer(repository.repository_app, name='repository')
+
+module = importlib.import_module('thipstercli.commands')
+for command in os.scandir(Path(module.__file__).parent):
+    if command.name.startswith('__'):
+        continue
+    command = command.name[:-3]
+
+    main_app.add_typer(getattr(module, f'{command}_app'), name=command)
 
 
 @main_app.callback()
