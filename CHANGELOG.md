@@ -2,6 +2,12 @@
 
 <!--next-version-placeholder-->
 
+## v0.4.0 (2023-06-21)
+
+### :sparkles:
+
+* :sparkles: feat: add info command ([#29](https://github.com/THipster/THipster-cli/issues/29)) ([`a962976`](https://github.com/THipster/THipster-cli/commit/a962976c02d756cf079e0e77d3d9c48f0b8f949a))
+
 ## v0.3.4 (2023-06-21)
 
 ### :arrow_up:
