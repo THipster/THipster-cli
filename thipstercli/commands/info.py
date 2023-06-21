@@ -136,7 +136,7 @@ def _info_resource(resource_name: str):
 
 def __attributes_info(resource_json):
     if (
-        not resource_json.get('internalObjects')
+        not resource_json.get('attributes')
         and not resource_json.get('internalObjects')
     ):
         return ''
@@ -228,7 +228,6 @@ def _get_resource_json(resource_name: str):
         resource_name += '.json'
         match state.get('repository_recovery_mode'):
             case 'local':
-
                 resource_model_location = Path(app_dir) / 'models' / \
                     state.get('models_repository') / resource_name
 
