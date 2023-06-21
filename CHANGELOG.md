@@ -2,6 +2,12 @@
 
 <!--next-version-placeholder-->
 
+## v0.4.2 (2023-06-21)
+
+### :bug:
+
+* :bug: fix: inverted verbose behavior ([#33](https://github.com/THipster/THipster-cli/issues/33)) ([`84f1e9e`](https://github.com/THipster/THipster-cli/commit/84f1e9ed3e36dacba79745e754773bbbd3b4d534))
+
 ## v0.4.1 (2023-06-21)
 
 ### :arrow_up:
