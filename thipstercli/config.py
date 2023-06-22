@@ -54,3 +54,13 @@ def update_config_file(parameters: dict[str, object]) -> None:
         config = parameters
 
     config_file.write_text(json.dumps(config, sort_keys=True, indent=4))
+
+
+def set_config_file(new_config: dict[str, object]) -> None:
+    """Update the config file with the given parameters."""
+    if not config_file.is_file():
+        config_file.parent.mkdir(parents=True, exist_ok=True)
+
+    config = new_config
+
+    config_file.write_text(json.dumps(config, sort_keys=True, indent=4))

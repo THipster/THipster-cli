@@ -39,21 +39,22 @@ def config_file(
     create_config_file,
 ):
     """Create a user config file with default values."""
-    create_config_file.write_text("""{
+    conf_str = """{
         "app_name": "thipstercli",
         "auth_provider": "google",
         "input_dir": "test/input_directory",
         "local_models_repository_path": "models",
         "models_repository": "THipster/models",
         "models_repository_branch": "main",
-        "models_repository_provider": "local",
+        "repository_recovery_mode": "local",
         "output_dir": "test/output_directory",
         "verbose": true
-}""")
+}"""
+    create_config_file.write_text(conf_str)
 
     init_parameters()
 
-    yield
+    yield json.loads(conf_str)
 
 
 @pytest.fixture
