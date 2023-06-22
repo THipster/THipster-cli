@@ -2,6 +2,16 @@
 
 <!--next-version-placeholder-->
 
+## v0.4.3 (2023-06-22)
+
+### :arrow_up:
+
+* :arrow_up: chore(bump): thipster 0.17.7 ([#35](https://github.com/THipster/THipster-cli/issues/35)) ([`b2d8daf`](https://github.com/THipster/THipster-cli/commit/b2d8dafad07b75614bd8590bcf9f303bcb19eeca))
+
+### Other
+
+* :green_heart: feat(ci): update ci workflows ([#34](https://github.com/THipster/THipster-cli/issues/34)) ([`168dde1`](https://github.com/THipster/THipster-cli/commit/168dde1b2b2e3b6fceefeea80c888fb388aa251c))
+
 ## v0.4.2 (2023-06-21)
 
 ### :bug:
