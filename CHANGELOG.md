@@ -2,6 +2,12 @@
 
 <!--next-version-placeholder-->
 
+## v0.5.0 (2023-06-22)
+
+### :sparkles:
+
+* :sparkles: feat: manage config using cli ([#36](https://github.com/THipster/THipster-cli/issues/36)) ([`22da8fd`](https://github.com/THipster/THipster-cli/commit/22da8fd203477a4825c07a7a0f0f8e8e8dcf8452))
+
 ## v0.4.3 (2023-06-22)
 
 ### :arrow_up:
