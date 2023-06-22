@@ -130,27 +130,27 @@ def _run(
 
     try:
         print_start_if_verbose('Parsing files')
-        parsed_file = engine._parse_files(path)
+        parsed_file = engine.parse_files(path)
         print_success_if_verbose('Parsing successful!')
 
         print_start_if_verbose('Retrieving models')
-        models = engine._get_models(parsed_file)
+        models = engine.get_models(parsed_file)
         print_success_if_verbose('Models retrieved!')
 
         print_start_if_verbose('Generating Terraform files')
-        engine._generate_tf_files(parsed_file, models)
+        engine.generate_tf_files(parsed_file, models)
         print_success_if_verbose('Terraform files generated!')
 
         print_start_if_verbose('Initializing Terraform')
-        engine._init_terraform()
+        engine.init_terraform()
         print_success_if_verbose('Terraform initialized!')
 
         print_start_if_verbose('Creating Terraform plan')
-        print(engine._plan_terraform())
+        print(engine.plan_terraform())
 
         if apply:
             print("Type 'yes' to apply the changes : ")
-            print(engine._apply_terraform())
+            print(engine.apply_terraform())
 
         print_if_verbose('Done! :tada:')
 
