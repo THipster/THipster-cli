@@ -52,6 +52,7 @@ select = [
     "RSE",
     "RET",
     "SIM",
+    "SLF",
     "TID",
     "ARG",
     "RUF",
