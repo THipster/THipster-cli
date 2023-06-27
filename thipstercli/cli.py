@@ -5,14 +5,8 @@ from pathlib import Path
 
 import typer
 from rich import print
-from thipster import Engine as ThipsterEngine
-from thipster.auth import Google
-from thipster.engine.exceptions import THipsterError
-from thipster.parser import ParserFactory
-from thipster.repository import GithubRepo, LocalRepo
-from thipster.terraform import Terraform
 
-import thipstercli.constants as constants
+from thipstercli import constants
 from thipstercli.commands import providers, repository
 from thipstercli.config import app_dir, init_parameters, state
 from thipstercli.display import (
@@ -107,6 +101,12 @@ def _run(
         help='Applies the generated Terraform code',
     ),
 ):
+    from thipster import Engine as ThipsterEngine
+    from thipster.auth import Google
+    from thipster.engine.exceptions import THipsterError
+    from thipster.parser import ParserFactory
+    from thipster.terraform import Terraform
+
     """Run the THipster Tool on the given path."""
     print_if_verbose(f'Running THipster on {path}')
 
@@ -166,6 +166,7 @@ def _run(
 
 def get_repo(local_path, online_path, branch):
     """Get model repository from cli args or config."""
+    from thipster.repository import GithubRepo, LocalRepo
     if local_path:
         if local_path in repository.list_installed_repos():
             repo_path = Path(app_dir) \
