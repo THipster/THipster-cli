@@ -2,6 +2,12 @@
 
 <!--next-version-placeholder-->
 
+## v0.5.8 (2023-06-27)
+
+### :zap:
+
+* :zap: perf: improve cli perf ([#47](https://github.com/THipster/THipster-cli/issues/47)) ([`fe16207`](https://github.com/THipster/THipster-cli/commit/fe16207c065f2fefaf0b7e9973a1548c65b3c495))
+
 ## v0.5.7 (2023-06-27)
 
 ### :arrow_up:
