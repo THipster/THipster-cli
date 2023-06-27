@@ -2,6 +2,12 @@
 
 <!--next-version-placeholder-->
 
+## v0.5.7 (2023-06-27)
+
+### :arrow_up:
+
+* :arrow_up: chore(bump): thipster 0.20.0 ([#46](https://github.com/THipster/THipster-cli/issues/46)) ([`06cd2e3`](https://github.com/THipster/THipster-cli/commit/06cd2e39a8db7d3eba9e206b4ccf5d901d3433c8))
+
 ## v0.5.6 (2023-06-26)
 
 ### :arrow_up:
