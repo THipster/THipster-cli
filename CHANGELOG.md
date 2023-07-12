@@ -2,6 +2,12 @@
 
 <!--next-version-placeholder-->
 
+## v0.5.9 (2023-07-12)
+
+### :arrow_up:
+
+* :arrow_up: chore(deps): Bump dagger-io from 0.6.2 to 0.6.3 ([#49](https://github.com/THipster/THipster-cli/issues/49)) ([`7ca5834`](https://github.com/THipster/THipster-cli/commit/7ca5834987dbf17a5bf50615c7e93941857e6529))
+
 ## v0.5.8 (2023-06-27)
 
 ### :zap:
