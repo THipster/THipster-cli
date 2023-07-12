@@ -2,6 +2,12 @@
 
 <!--next-version-placeholder-->
 
+## v0.5.10 (2023-07-12)
+
+### :arrow_up:
+
+* :arrow_up: chore(deps): Bump importlib-resources from 5.12.0 to 6.0.0 ([#51](https://github.com/THipster/THipster-cli/issues/51)) ([`e77ad2b`](https://github.com/THipster/THipster-cli/commit/e77ad2b528f284abf867a1441f12e7b016c8ca9d))
+
 ## v0.5.9 (2023-07-12)
 
 ### :arrow_up:
