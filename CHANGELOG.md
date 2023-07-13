@@ -2,6 +2,12 @@
 
 <!--next-version-placeholder-->
 
+## v0.5.11 (2023-07-13)
+
+### :arrow_up:
+
+* :arrow_up: chore(deps): Bump importlib-metadata from 6.7.0 to 6.8.0 ([#52](https://github.com/THipster/THipster-cli/issues/52)) ([`b63fd2e`](https://github.com/THipster/THipster-cli/commit/b63fd2e17a98bfd1c165e0fd34d84233aebf9e85))
+
 ## v0.5.10 (2023-07-12)
 
 ### :arrow_up:
