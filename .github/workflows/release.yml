@@ -24,11 +24,23 @@ jobs:
         token: ${{ secrets.RELEASE_ACCESS_TOKEN }}
 
     - name: Python Semantic Release
-      uses: relekang/python-semantic-release@master
+      id: release
+      uses: python-semantic-release/python-semantic-release@v8.0.0
       with:
         github_token: ${{ secrets.RELEASE_ACCESS_TOKEN }}
-        repository_username: __token__
-        repository_password: ${{ secrets.PYPI_TOKEN }}
+
+    - name: Publish package to PyPI
+      uses: pypa/gh-action-pypi-publish@release/v1
+      if: steps.release.outputs.released == 'true'
+      with:
+        user: __token__
+        password: ${{ secrets.PYPI_TOKEN }}
+
+    - name: Publish package to GitHub Releases
+      uses: python-semantic-release/upload-to-gh-release@main
+      if: steps.release.outputs.released == 'true'
+      with:
+        github_token: ${{ secrets.RELEASE_ACCESS_TOKEN }}
 
     - name: Enable "include administrators" branch protection
       uses: benjefferies/branch-protection-bot@master
