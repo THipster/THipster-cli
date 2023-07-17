@@ -1,4 +1,4 @@
-GitPython==3.1.31
+GitPython==3.1.32
 importlib-metadata==6.8.0
 importlib-resources==6.0.0
 thipster==0.20.0
