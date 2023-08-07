@@ -9,6 +9,9 @@ jobs:
     runs-on: ubuntu-latest
     concurrency: release
     permissions: write-all
+    environment:
+      name: pypi
+      url: https://pypi.org/project/thipstercli
 
     steps:
     - name: Temporarily disable "include administrators" branch protection
@@ -25,9 +28,20 @@ jobs:
 
     - name: Python Semantic Release
       id: release
-      uses: python-semantic-release/python-semantic-release@v8.0.0
+      uses: python-semantic-release/python-semantic-release@v8.0.4
       with:
         github_token: ${{ secrets.RELEASE_ACCESS_TOKEN }}
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install build
+      if: steps.release.outputs.released == 'true'
+
+    - name: Build package
+      run: |
+        python -m build
+      if: steps.release.outputs.released == 'true'
 
     - name: Publish package to PyPI
       uses: pypa/gh-action-pypi-publish@release/v1
