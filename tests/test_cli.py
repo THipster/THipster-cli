@@ -96,7 +96,8 @@ def test_run_bucket():
 
     assert result.exit_code == 0
     assert 'thipster_cli_test_bucket' in result.output
-    assert 'Terraform will perform the following actions' in result.output
+    assert 'Terraform will perform the following actions' \
+        in result.output.replace('\n', '')
 
 
 def test_config_file_verbose(config_file):
