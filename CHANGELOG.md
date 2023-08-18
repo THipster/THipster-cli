@@ -2,6 +2,20 @@
 
 
 
+## v0.5.13 (2023-08-18)
+
+### :arrow_up:
+
+* :arrow_up: chore(deps): Bump sphinx from 7.0.1 to 7.2.2 (#71)
+
+Signed-off-by: dependabot[bot] &lt;support@github.com&gt;
+Co-authored-by: dependabot[bot] &lt;49699333+dependabot[bot]@users.noreply.github.com&gt; ([`683f00c`](https://github.com/THipster/THipster-cli/commit/683f00cceaef355b6a78b5662fe492040cb5a9bb))
+
+### Other
+
+* :green_heart: fix: add MANIFEST ([`b703139`](https://github.com/THipster/THipster-cli/commit/b703139eff6cbf57bf8183cd0a3bad60c031b5aa))
+
+
 ## v0.5.12 (2023-08-18)
 
 ### :arrow_up:
