@@ -5,9 +5,9 @@ from setuptools import find_packages, setup
 
 
 def get_extra_requires() -> dict[str, list[str]]:
-    """Get the extra requirements from the requirements-*.txt files."""
+    """Get the extra requirements from the requirements folder."""
     extras_require = {}
-    for req_file in Path('.').glob('requirements-*.txt'):
+    for req_file in Path('requirements').glob('requirements-*.txt'):
         extras_require[
             req_file.stem.removeprefix('requirements-')
         ] = req_file.read_text().splitlines()
