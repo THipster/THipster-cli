@@ -2,6 +2,16 @@
 
 
 
+## v0.5.14 (2023-08-18)
+
+### :arrow_up:
+
+* :arrow_up: chore(deps): Bump dagger-io from 0.8.1 to 0.8.4 (#69)
+
+Signed-off-by: dependabot[bot] &lt;support@github.com&gt;
+Co-authored-by: dependabot[bot] &lt;49699333+dependabot[bot]@users.noreply.github.com&gt; ([`4a3df54`](https://github.com/THipster/THipster-cli/commit/4a3df541b42a376cb419aa49596d2a1a9ec5ba4b))
+
+
 ## v0.5.13 (2023-08-18)
 
 ### :arrow_up:
