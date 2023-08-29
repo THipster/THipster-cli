@@ -46,7 +46,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements/dagger-requirements.txt
       - name: Run Dagger_test.py pipeline
-        run: python ci/prhandler.py
+        run: python pipelines/prhandler.py
         env:
           GOOGLE_APPLICATION_CREDENTIALS_CONTENT: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_CONTENT }}
 
@@ -64,4 +64,4 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements/dagger-requirements.txt
       - name: Run Dagger_pre-commit.py pipeline
-        run: python ci/precommit.py
+        run: python pipelines/precommit.py
