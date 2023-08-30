@@ -1,7 +1,7 @@
 # PR labeler configuration file
 ci:
 - any: ['.github/**/*','!.github/ISSUE_TEMPLATE/*','!.github/pull_request_template.md']
-- ci/**/*
+- pipelines/**/*
 - .pre-commit-config.yaml
 
 gitignore:
