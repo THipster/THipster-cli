@@ -73,7 +73,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements/dagger-requirements.txt
-      - name: Run Dagger_test.py pipeline
+      - name: Run Dagger_publish.py pipeline
         run: python pipelines/publish.py
         env:
-          CR_PAT: ${{ secrets.GITHUB_TOKEN }}
+          CR_PAT: ${{ secrets.PUBLISH_ACCESS_TOKEN }}
