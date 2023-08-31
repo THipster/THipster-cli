@@ -2,6 +2,13 @@
 
 
 
+## v0.6.0 (2023-08-31)
+
+### :sparkles:
+
+* :sparkles: feat: add container image (#77) ([`7cb8ffe`](https://github.com/THipster/THipster-cli/commit/7cb8ffe7ec4cdc2470ff47d324840a474df2b89e))
+
+
 ## v0.5.14 (2023-08-18)
 
 ### :arrow_up:
