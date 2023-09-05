@@ -1,8 +1,8 @@
 """Commands to manage the app config."""
 from typing import Annotated
 
+import rich
 import typer
-from rich import print
 
 from thipstercli.config import set_config_file, state, update_config_file
 from thipstercli.display import error, print_if_verbose
@@ -84,4 +84,4 @@ def get_command(
     if name not in state:
         error(f'Key {name} not found in config')
 
-    print(f'{name} = {state[name]}')
+    rich.print(f'{name} = {state[name]}')

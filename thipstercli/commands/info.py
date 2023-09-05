@@ -5,9 +5,9 @@ from pathlib import Path
 from typing import Annotated
 
 import requests
+import rich
 import typer
 import validators
-from rich import print
 from rich.panel import Panel
 
 from thipstercli import constants
@@ -67,12 +67,12 @@ def resources(
 ):
     """List all the resources in repository."""
     models = _get_models()
-    print(
+    rich.print(
         f'Models in {state.get("repository_recovery_mode")} '
         f'repository {state.get("models_repository")} :',
     )
     for model_name in models:
-        print(f'\t{model_name}')
+        rich.print(f'\t{model_name}')
 
 
 def _get_models():
@@ -119,7 +119,7 @@ def _info_resource(resource_name: str):
 
     print(f'[bold]{resource_name}[/bold]')
     if resource_json.get('description'):
-        print(f'\t{resource_json.get("description")}')
+        rich.print(f'\t{resource_json.get("description")}')
 
     dependencies_str = __dependencies_info(resource_json)
     dependencies_str = dependencies_str.rstrip('\n')
@@ -128,10 +128,10 @@ def _info_resource(resource_name: str):
     attributes_str = attributes_str.rstrip('\n')
 
     if dependencies_str:
-        print(Panel(dependencies_str, title='Dependencies'))
+        rich.print(Panel(dependencies_str, title='Dependencies'))
 
     if attributes_str:
-        print(Panel(attributes_str, title='Attributes'))
+        rich.print(Panel(attributes_str, title='Attributes'))
 
 
 def __attributes_info(resource_json):
@@ -168,10 +168,9 @@ def __attributes_info(resource_json):
 
     attributes_str += '\n'
 
-    attributes_str = __internal_object_info(
+    return __internal_object_info(
         resource_json, attributes_str, name_width,
     )
-    return attributes_str
 
 
 def __internal_object_info(resource_json, attributes_str, name_width):

@@ -5,9 +5,9 @@ import shutil
 from pathlib import Path
 from typing import Annotated
 
+import rich
 import typer
 from git import Repo
-from rich import print
 from rich.panel import Panel
 
 from thipstercli.config import app_dir, state, update_config_file
@@ -30,7 +30,7 @@ def list_repositories():
     repos_display = ''
     for repo in downloaded_repos:
         repos_display += f'[green]{repo}[/green]\n'
-    print(Panel(repos_display, title='Locally installed model repositories'))
+    rich.print(Panel(repos_display, title='Locally installed model repositories'))
     __more_info_repos()
 
 
@@ -120,7 +120,7 @@ def list_installed_repos():
 
 
 def __more_info_repos():
-    print(
+    rich.print(
         Panel('For more information about a provider, run: thipster repository info \
 <repository>'),
     ) if state.get('verbose') else None

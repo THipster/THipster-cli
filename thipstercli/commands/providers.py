@@ -1,6 +1,6 @@
 """Commands to manage the auth providers."""
+import rich
 import typer
-from rich import print
 from rich.panel import Panel
 
 from thipstercli.config import state, update_config_file
@@ -25,7 +25,7 @@ def _list():
     provider_display = ''
     for provider in state['providers']:
         provider_display += f'[green]{provider[:-3]}[/green]\n'
-    print(Panel(provider_display, title='Providers'))
+    rich.print(Panel(provider_display, title='Providers'))
     __more_info_provider()
 
 
@@ -35,7 +35,7 @@ def info(provider: str):
     provider = check_provider_exists(provider)
 
     provider_class = get_auth_provider_class(provider)
-    print(Panel(provider_class.__doc__, title=provider))
+    rich.print(Panel(provider_class.__doc__, title=provider))
 
 
 @providers_app.command('set')
@@ -47,7 +47,7 @@ def set_auth_provider(provider: str):
         {'auth_provider': provider},
     )
 
-    print(f'Provider set to [green]{provider}[/green]')
+    rich.print(f'Provider set to [green]{provider}[/green]')
     __more_info_provider()
 
 
@@ -55,16 +55,16 @@ def set_auth_provider(provider: str):
 def display():
     """Display the current provider."""
     if not state.get('auth_provider', None):
-        print('No provider set.\nPlease use [bold]thipster providers set <provider>\
-[/bold] to set a provider')
+        rich.print('No provider set.\nPlease use [bold]thipster providers set \
+<provider>[/bold] to set a provider')
         return
-    print(f"Provider set to [green]{state['auth_provider']}[/green]")
+    rich.print(f"Provider set to [green]{state['auth_provider']}[/green]")
 
 
 def check_provider_exists(provider: str) -> str:
     """Check if the given provider exists in the providers list."""
     if not check_thipster_module_exists('auth', provider):
-        print(f'Provider [red]{provider.capitalize()}[/red] not found. \
+        rich.print(f'Provider [red]{provider.capitalize()}[/red] not found. \
 Please use one of the following providers:')
         _list()
         raise typer.Exit(1)
@@ -73,7 +73,7 @@ Please use one of the following providers:')
 
 
 def __more_info_provider():
-    print(
+    rich.print(
         Panel('For more information about a provider, run: thipster providers info \
 <provider>'),
     ) if state.get('verbose') else None

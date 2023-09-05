@@ -2,7 +2,7 @@
 import json
 from pathlib import Path
 
-from rich import print
+import rich
 from typer import get_app_dir
 
 from . import constants
@@ -28,8 +28,8 @@ def init_parameters() -> None:
         return
 
     if not check_thipster_module_exists('auth', state['auth_provider']):
-        print(f':rotating_light: User set Auth Provider [red]{state["auth_provider"]}\
-[/red] not found')
+        rich.print(f':rotating_light: User set Auth Provider [red]\
+{state["auth_provider"]}[/red] not found')
         state.pop('auth_provider')
 
 
