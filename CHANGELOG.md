@@ -2,6 +2,21 @@
 
 
 
+## v0.6.1 (2023-09-05)
+
+### :bug:
+
+* :bug: fix: import on list (#83) ([`b75d78d`](https://github.com/THipster/THipster-cli/commit/b75d78d24a0b85fde74fa8b9d6abe231e64ddf16))
+
+### Other
+
+* 🐛 fix: issue with output color (#84) ([`d49e00f`](https://github.com/THipster/THipster-cli/commit/d49e00f9c9f5eef4e9be3652483c8679e557d9e4))
+
+* :green_heart: feat: add tags to releases (#78) ([`44dae11`](https://github.com/THipster/THipster-cli/commit/44dae11dec8e723e21f1a6a2259d5aa81c722a9a))
+
+* :green_heart: fix: change publish token access ([`7f869ff`](https://github.com/THipster/THipster-cli/commit/7f869ff519b4283c75b8dc478a6bf1568c79b9bf))
+
+
 ## v0.6.0 (2023-08-31)
 
 ### :sparkles:
