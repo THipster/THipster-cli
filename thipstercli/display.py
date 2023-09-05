@@ -2,22 +2,25 @@
 import sys
 from importlib.metadata import version as get_version
 
+import rich
 import typer
-from rich import print
 
 from thipstercli.config import state
 
 
 def error(*args, **kwargs):
     """Print an error message and exit the program."""
-    print('[bold][red]Error :[/red][/bold]', *args, file=sys.stderr, **kwargs)
+    rich.print(
+        '[bold][red]Error :[/red][/bold]',
+        *args, file=sys.stderr, **kwargs,
+    )
     sys.stderr.flush()
     raise typer.Exit(1)
 
 
 def warn(*args, **kwargs):
     """Print a warning message."""
-    print(
+    rich.print(
         '[bold][yellow]Warning :[/yellow][/bold]',
         *args, file=sys.stdout, **kwargs,
     )
@@ -26,7 +29,7 @@ def warn(*args, **kwargs):
 
 def print_if_verbose(text: str):
     """Print the given text if the verbose flag is set."""
-    print(text) if state.get('verbose', False) else None
+    rich.print(text) if state.get('verbose', False) else None
 
 
 def print_start_if_verbose(text: str):
@@ -41,4 +44,4 @@ def print_success_if_verbose(text: str):
 
 def print_package_version(package: str):
     """Print the version of the given package."""
-    print(f':bookmark: {package} [green]v{get_version(package)}[/green]')
+    rich.print(f':bookmark: {package} [green]v{get_version(package)}[/green]')

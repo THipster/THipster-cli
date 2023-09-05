@@ -3,8 +3,8 @@ import importlib
 import os
 from pathlib import Path
 
+import rich
 import typer
-from rich import print
 
 from thipstercli import constants
 from thipstercli.commands import providers, repository
@@ -146,11 +146,17 @@ def _run(
         print_success_if_verbose('Terraform initialized!')
 
         print_start_if_verbose('Creating Terraform plan')
-        print(engine.plan_terraform())
+        exit_code, output = engine.plan_terraform()
+        if exit_code != 0:
+            error(f'Error while planning : {output}')
+        print(output)
 
         if apply:
-            print("Type 'yes' to apply the changes : ")
-            print(engine.apply_terraform())
+            rich.print("Type 'yes' to apply the changes : ")
+            exit_code, output = engine.apply_terraform()
+            if exit_code != 0:
+                error(f'Error while applying : {output}')
+            print(output)
 
         print_if_verbose('Done! :tada:')
 
