@@ -16,10 +16,11 @@ async def release(python_version):
         cr_pat = client.set_secret('password', os.environ['CR_PAT'])
 
         setup = await src.file('setup.py').contents()
-        cli_version = re.findall(
-            r"__version__ = '([0-9]+\.[0-9]+\.[0-9]+)'",
+        semver = re.search(
+            r"__version__ = '(?P<version>(?P<major>[0-9]+)\.(?P<minor>[0-9]+)\.(?P<patch>[0-9]+))'",  # noqa: E501
             setup,
-        )[0]
+        )
+        cli_version = semver.group('version')
 
         image = (
             base.thipster_base(client, python_version)
@@ -30,14 +31,22 @@ async def release(python_version):
                 'org.opencontainers.image.source',
                 'https://github.com/THipster/THipster-cli',
             )
+            .with_registry_auth('ghcr.io', 'rcattin', cr_pat)
         )
+        tags = [
+            cli_version,
+            f"{semver.group('major')}.{semver.group('minor')}",
+            'latest',
+        ]
+        if int(semver.group('major')) > 0:
+            tags.append(semver.group('major'))
 
-        address = await (
-            image.with_registry_auth('ghcr.io', 'rcattin', cr_pat)
-            .publish(f'ghcr.io/thipster/cli:{cli_version}')
-        )
+        for tag in tags:
+            address = await (
+                image.publish(f'ghcr.io/thipster/cli:{tag}')
+            )
 
-    print(f'Image published at {address} ')
+            print(f'Image published at {address} ')
 
 if __name__ == '__main__':
     python_version = '3.11'
