@@ -1,6 +1,7 @@
 """Functions to get thipster classes and modules."""
 import importlib
 import os
+import pkgutil
 from pathlib import Path
 
 
@@ -74,11 +75,11 @@ def get_thipster_module_class_list(module_name: str) -> list[str]:
     list[str]
         The list of classes contained in the module.
     """
-    module = importlib.import_module(
+    package = pkgutil.get_loader(
         f'thipster.{module_name.lower()}',
     )
     module_class_list = []
-    with os.scandir(Path(module.__file__).parent) as entries:
+    with os.scandir(Path(package.get_filename()).parent) as entries:
         for entry in entries:
             if entry.is_file() and entry.name.endswith('.py') and not \
                     entry.name.startswith('__'):
