@@ -2,6 +2,21 @@
 
 
 
+## v0.6.2 (2023-10-23)
+
+### :arrow_up:
+
+* :arrow_up: chore(deps): Bump validators from 0.20.0 to 0.22.0 (#81)
+
+Signed-off-by: dependabot[bot] &lt;support@github.com&gt;
+Co-authored-by: dependabot[bot] &lt;49699333+dependabot[bot]@users.noreply.github.com&gt; ([`4e4f53a`](https://github.com/THipster/THipster-cli/commit/4e4f53a8b59d987417c11fef55f87ef40b91c4de))
+
+* :arrow_up: chore(deps): Bump sphinx from 7.2.2 to 7.2.6 (#88)
+
+Signed-off-by: dependabot[bot] &lt;support@github.com&gt;
+Co-authored-by: dependabot[bot] &lt;49699333+dependabot[bot]@users.noreply.github.com&gt; ([`986fb89`](https://github.com/THipster/THipster-cli/commit/986fb89716c53b04a18a57545d8d2f38c3948570))
+
+
 ## v0.6.1 (2023-09-05)
 
 ### :bug:
