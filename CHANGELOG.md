@@ -2,6 +2,28 @@
 
 
 
+## v0.6.3 (2023-11-07)
+
+### :arrow_up:
+
+* :arrow_up: chore(deps): Bump pre-commit from 3.3.3 to 3.5.0 (#98)
+
+Signed-off-by: dependabot[bot] &lt;support@github.com&gt;
+Co-authored-by: dependabot[bot] &lt;49699333+dependabot[bot]@users.noreply.github.com&gt; ([`353dcce`](https://github.com/THipster/THipster-cli/commit/353dcce244400fea9f9cc2b4176ed403aa131fee))
+
+### Other
+
+* :green_heart: chore(ci): Bump python-semantic-release/python-semantic-release from 8.0.4 to 8.3.0 (#102)
+
+Signed-off-by: dependabot[bot] &lt;support@github.com&gt;
+Co-authored-by: dependabot[bot] &lt;49699333+dependabot[bot]@users.noreply.github.com&gt; ([`a0be8f4`](https://github.com/THipster/THipster-cli/commit/a0be8f4d19af3b6e58886e8ca6ce8b1fab2c0e67))
+
+* :green_heart: chore(ci): Bump actions/checkout from 3 to 4 (#85)
+
+Signed-off-by: dependabot[bot] &lt;support@github.com&gt;
+Co-authored-by: dependabot[bot] &lt;49699333+dependabot[bot]@users.noreply.github.com&gt; ([`47f01b1`](https://github.com/THipster/THipster-cli/commit/47f01b1a9ee1563454ec05b00fa83e110052f67c))
+
+
 ## v0.6.2 (2023-10-23)
 
 ### :arrow_up:
