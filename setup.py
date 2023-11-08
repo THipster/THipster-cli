@@ -14,7 +14,7 @@ def get_extra_requires() -> dict[str, list[str]]:
     return extras_require
 
 
-__version__ = '0.6.4'
+__version__ = '0.6.5'
 
 with Path('requirements.txt').open() as f:
     required = f.read().splitlines()

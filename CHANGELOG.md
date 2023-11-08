@@ -2,6 +2,16 @@
 
 
 
+## v0.6.5 (2023-11-08)
+
+### :arrow_up:
+
+* :arrow_up: chore(deps): Bump importlib-resources from 6.0.0 to 6.1.0 (#92)
+
+Signed-off-by: dependabot[bot] &lt;support@github.com&gt;
+Co-authored-by: dependabot[bot] &lt;49699333+dependabot[bot]@users.noreply.github.com&gt; ([`91dfc03`](https://github.com/THipster/THipster-cli/commit/91dfc03cb13e35196427c79243725cc6381a2484))
+
+
 ## v0.6.4 (2023-11-08)
 
 ### :arrow_up:
