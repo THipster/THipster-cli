@@ -2,6 +2,23 @@
 
 
 
+## v0.6.4 (2023-11-08)
+
+### :arrow_up:
+
+* :arrow_up: chore(deps): Bump pytest-mock from 3.11.1 to 3.12.0 (#99)
+
+Signed-off-by: dependabot[bot] &lt;support@github.com&gt;
+Co-authored-by: dependabot[bot] &lt;49699333+dependabot[bot]@users.noreply.github.com&gt; ([`13739dd`](https://github.com/THipster/THipster-cli/commit/13739dd8b143a03dbb30dec085c39e66437e4507))
+
+### Other
+
+* build(deps): bump gitpython from 3.1.32 to 3.1.37 (#104)
+
+Signed-off-by: dependabot[bot] &lt;support@github.com&gt;
+Co-authored-by: dependabot[bot] &lt;49699333+dependabot[bot]@users.noreply.github.com&gt; ([`cc62118`](https://github.com/THipster/THipster-cli/commit/cc6211800b3d32c920c6838637ecaf1e1f986e07))
+
+
 ## v0.6.3 (2023-11-07)
 
 ### :arrow_up:
