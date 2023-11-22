@@ -2,6 +2,21 @@
 
 
 
+## v0.6.6 (2023-11-22)
+
+### :arrow_up:
+
+* :arrow_up: chore(deps): Bump importlib-resources from 6.1.0 to 6.1.1 (#106)
+
+Signed-off-by: dependabot[bot] &lt;support@github.com&gt;
+Co-authored-by: dependabot[bot] &lt;49699333+dependabot[bot]@users.noreply.github.com&gt; ([`c4199c3`](https://github.com/THipster/THipster-cli/commit/c4199c3e3ec59c3e4df544e6030fc8ed9c1079f5))
+
+* :arrow_up: chore(deps): Bump pytest from 7.4.0 to 7.4.3 (#108)
+
+Signed-off-by: dependabot[bot] &lt;support@github.com&gt;
+Co-authored-by: dependabot[bot] &lt;49699333+dependabot[bot]@users.noreply.github.com&gt; ([`cb9a9cc`](https://github.com/THipster/THipster-cli/commit/cb9a9cc4daadc1d806af348fce472d8e3a200a37))
+
+
 ## v0.6.5 (2023-11-08)
 
 ### :arrow_up:
