@@ -2,6 +2,16 @@
 
 
 
+## v0.6.8 (2023-11-29)
+
+### :arrow_up:
+
+* :arrow_up: chore(deps): Bump gitpython from 3.1.37 to 3.1.40 (#111)
+
+Signed-off-by: dependabot[bot] &lt;support@github.com&gt;
+Co-authored-by: dependabot[bot] &lt;49699333+dependabot[bot]@users.noreply.github.com&gt; ([`db89486`](https://github.com/THipster/THipster-cli/commit/db89486e6b5cccec36c2a4bd91b186a7c3dac8a5))
+
+
 ## v0.6.7 (2023-11-28)
 
 ### :arrow_up:
